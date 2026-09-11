@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mitsuki's Magical Apps</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;font-family:"Trebuchet MS",system-ui,sans-serif;
+ color:#513c5c;
+ background:
+ radial-gradient(circle at 12% 12%,#fff 0 3%,transparent 4%),
+ radial-gradient(circle at 88% 22%,#fff 0 3%,transparent 4%),
+ linear-gradient(145deg,#ffddec,#eee5ff 55%,#dff6f0);
+ padding:20px;
+}
+.cloud{position:fixed;font-size:60px;opacity:.5;z-index:-1;animation:float 8s ease-in-out infinite}
+.c1{left:4%;top:12%}.c2{right:5%;top:42%;animation-delay:2s}.c3{left:10%;bottom:8%;animation-delay:4s}
+@keyframes float{50%{transform:translateY(-15px)}}
+.wrap{
+ width:min(680px,100%);margin:auto;background:#fffffff2;
+ border:4px solid #f1b8d4;border-radius:34px;
+ box-shadow:0 15px 45px #76527b30;overflow:hidden;
+}
+header{text-align:center;padding:24px 18px 20px;background:linear-gradient(135deg,#ffd2e6,#e4d4ff)}
+.characters{display:flex;justify-content:center;gap:30px;font-size:70px;filter:drop-shadow(0 4px 0 white)}
+.characters span{animation:bob 2s ease-in-out infinite}
+.characters span:nth-child(2){animation-delay:.5s}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-3deg)}}
+h1{margin:8px 0 4px;font-size:clamp(30px,8vw,45px);color:#81466f}
+.subtitle{font-size:17px}
+main{padding:22px}
+h2{text-align:center;color:#81466f;margin:0 0 17px}
+.apps{display:grid;gap:16px}
+.app{
+ display:flex;align-items:center;gap:17px;text-decoration:none;color:inherit;
+ background:linear-gradient(135deg,#fff6fa,#f5efff);
+ border:3px solid #ead3e9;border-radius:25px;padding:16px;
+ box-shadow:0 5px 0 #dfc9df;transition:.15s;
+}
+.app:hover{transform:translateY(-3px);box-shadow:0 8px 0 #dfc9df}
+.icon{font-size:54px;min-width:70px;text-align:center}
+.app h3{margin:0 0 4px;font-size:23px;color:#70476f}
+.app p{margin:0;font-size:15px}
+.arrow{margin-left:auto;font-size:30px;color:#b15d91}
+.coming{opacity:.65;background:#fafafa}
+footer{text-align:center;padding:5px 20px 22px;font-size:14px;color:#846e87}
+</style>
+</head>
+<body>
+<div class="cloud c1">☁️</div><div class="cloud c2">☁️</div><div class="cloud c3">☁️</div>
+<div class="wrap">
+<header>
+ <div class="characters"><span>🐰🌸</span><span>😈🖤</span></div>
+ <h1>🎀 Mitsuki's Apps 🎀</h1>
+ <div class="subtitle">A little place for learning & fun!</div>
+</header>
+<main>
+ <h2>🌷 Choose an adventure! 🌷</h2>
+ <div class="apps">
+  <a class="app" href="math/">
+   <div class="icon">🔢🌸</div>
+   <div>
+    <h3>Magical Math Garden</h3>
+    <p>Practice addition & subtraction, earn stickers, and grow your flower garden!</p>
+   </div>
+   <div class="arrow">›</div>
+  </a>
+  <div class="app coming">
+   <div class="icon">📚✨</div>
+   <div>
+    <h3>More coming soon!</h3>
+    <p>New little learning adventures can be added here.</p>
+   </div>
+  </div>
+ </div>
+</main>
+<footer>Made especially for Mitsuki 💕</footer>
+</div>
+</body>
+</html>
