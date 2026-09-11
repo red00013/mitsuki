@@ -1,35 +1,58 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mitsuki's Magical Apps</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mitsuki's Apps</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Trebuchet MS",system-ui,sans-serif;color:#573d59;background:#fff0f7;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;z-index:-2;background:linear-gradient(#ffddeb,#efe5ff 58%,#e1f7ed)}
-body:after{content:"";position:fixed;width:300px;height:300px;border-radius:50%;background:#fff8;top:-120px;right:-90px;z-index:-1}
-.wrap{width:min(760px,96%);margin:14px auto 28px;background:#fffdfd;border:5px solid #f4b5d2;border-radius:38px;box-shadow:0 18px 50px #71476a28;overflow:hidden}
-.hero{position:relative;text-align:center;padding:18px 16px 22px;background:linear-gradient(145deg,#ffc9df,#e3d1ff);overflow:hidden}
-.bows{font-size:28px;letter-spacing:15px}.hero h1{font-size:clamp(36px,9vw,58px);line-height:.95;margin:7px 0;color:#8c4676;text-shadow:2px 3px #fff}.hero p{margin:7px 0;font-size:18px}
-.characters{display:flex;justify-content:center;gap:32px;margin:8px 0 0}.bunny{font-size:74px;filter:drop-shadow(0 5px 0 #fff);animation:bob 2.3s ease-in-out infinite}.bunny:last-child{animation-delay:.55s}
-@keyframes bob{50%{transform:translateY(-9px) rotate(-3deg)}}
-main{padding:22px}.title{text-align:center;color:#8c4a78;font-size:23px;margin:0 0 16px}
-.app{display:block;text-decoration:none;color:inherit;border:4px solid #efc4d9;border-radius:30px;overflow:hidden;background:#fff;box-shadow:0 7px 0 #dfbdd4;transition:.15s}
-.app:hover{transform:translateY(-3px);box-shadow:0 10px 0 #dfbdd4}
-.preview{min-height:205px;padding:18px;position:relative;background:linear-gradient(#bfe8ff,#e6f8de);overflow:hidden}
-.sun{position:absolute;right:25px;top:20px;font-size:46px}.hill{position:absolute;bottom:-45px;width:120%;left:-10%;height:115px;border-radius:50% 50% 0 0;background:#a9dda9}
-.preview .flower{position:absolute;bottom:23px;font-size:32px}.f1{left:8%}.f2{left:22%}.f3{right:18%}.f4{right:6%}
-.mini{position:absolute;bottom:17px;left:50%;transform:translateX(-50%);font-size:68px;filter:drop-shadow(0 4px #fff)}
-.play{position:absolute;right:20px;bottom:22px;background:#ff70ad;color:white;width:70px;height:70px;border-radius:50%;display:grid;place-items:center;font-size:35px;border:5px solid white;box-shadow:0 5px #d84f91}
-.info{padding:16px 19px 19px}.info h2{margin:0;color:#8c4676;font-size:26px}.info p{margin:5px 0 0;font-size:15px}
-.coming{margin-top:20px;padding:20px;border:3px dashed #e9bfd5;border-radius:25px;text-align:center;background:#fff7fb;color:#8a6681}.coming strong{display:block;font-size:21px;margin-bottom:4px}
-.footer{text-align:center;padding:0 20px 22px;font-size:14px;color:#92758c}
-</style></head>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif;color:#60415d}
+body{background:#ffddeb}
+.page{width:min(760px,100%);min-height:100vh;margin:auto;background:#fff8fb;overflow:hidden;box-shadow:0 0 35px #9d668044}
+.hero{height:355px;position:relative;overflow:hidden;text-align:center;padding-top:18px;background:linear-gradient(#f7c4d9,#ffe9f3)}
+.awning{height:75px;position:absolute;left:0;right:0;top:0;background:repeating-linear-gradient(90deg,#f6a8c9 0 62px,#ffd2e3 62px 124px);border-radius:0 0 30px 30px;box-shadow:inset 0 -7px #ee9cbd}
+.awning:after{content:"";position:absolute;left:50%;top:5px;transform:translateX(-50%);font-size:58px;content:"🎀"}
+.hearts{position:absolute;font-size:26px;opacity:.9}.h1{left:38px;top:105px}.h2{right:40px;top:155px}.h3{left:90px;top:245px}.h4{right:90px;top:235px}
+.rainbow{position:absolute;right:35px;top:112px;font-size:74px;opacity:.7}
+.hero h1{position:relative;margin:73px 0 0;font-size:clamp(45px,10vw,74px);line-height:.92;color:#ef5791;text-shadow:3px 4px white;letter-spacing:-2px}
+.hero h1 span{color:#7850c4;display:block}.tag{font-size:22px;margin-top:12px;color:#684c69}
+.mascot{position:absolute;bottom:-5px;font-size:105px;filter:drop-shadow(0 5px white);z-index:2}.m1{left:20px}.m2{right:12px}
+.content{padding:18px 25px 30px;background:linear-gradient(#fff7fb,#fffdfd)}
+.appcard{display:block;position:relative;text-decoration:none;color:#62435e;border:5px solid white;border-radius:28px;overflow:hidden;background:#d8f2dd;box-shadow:0 4px 0 #d9b9cd,0 9px 20px #9b6d8730;min-height:260px}
+.garden{height:205px;position:relative;overflow:hidden;background:linear-gradient(#aee2fa,#dff5d5 62%,#9bd68e)}
+.garden:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 25%,#fff9 0 5px,transparent 6px),radial-gradient(circle at 70% 18%,#fff8 0 4px,transparent 5px)}
+.garden .sun{position:absolute;right:20px;top:10px;font-size:48px}.hill{position:absolute;left:-10%;bottom:-85px;width:120%;height:170px;background:#91cf88;border-radius:50% 50% 0 0}
+.garden .flower{position:absolute;bottom:22px;font-size:42px;z-index:3}.fl1{left:5%}.fl2{left:20%}.fl3{right:19%}.fl4{right:4%}
+.garden .girl{position:absolute;left:28px;bottom:13px;font-size:88px;z-index:4;filter:drop-shadow(0 4px white)}
+.garden .butter{position:absolute;right:32%;top:35px;font-size:30px}
+.play{position:absolute;right:24px;bottom:22px;width:82px;height:82px;border-radius:50%;background:#f35d9e;color:white;border:6px solid white;display:grid;place-items:center;font-size:38px;z-index:6;box-shadow:0 5px #ce4783}
+.cardtext{position:absolute;left:0;right:0;top:11px;text-align:center;z-index:7;text-shadow:2px 2px white}.cardtext b{display:block;font-size:31px;color:#e85290}.cardtext span{font-size:18px;color:#704e61}
+.more{margin:18px 9px 0;min-height:135px;border:3px dashed #efb9d2;border-radius:25px;text-align:center;padding:20px;background:#fff8fb;position:relative}
+.more .heart{font-size:27px}.more strong{display:block;font-size:22px;color:#7a5675;margin:5px}
+.cozy{height:260px;margin:18px -25px -30px;padding:20px 28px;position:relative;overflow:hidden;background:linear-gradient(#ffe5ee,#ffd9e7)}
+.window{position:absolute;right:20px;top:12px;width:155px;height:120px;border:7px solid #f2b6c9;border-radius:12px;background:linear-gradient(#c8ecff,#fff)}
+.books{position:absolute;left:18px;bottom:22px;font-size:22px;line-height:1.05}.books div{padding:5px 14px;border-radius:5px;margin-top:2px;background:#ffc4d9;border:2px solid #e8a3c0}
+.sleep{position:absolute;left:42%;bottom:-12px;font-size:78px;filter:drop-shadow(0 4px white)}
+.note{position:absolute;right:17px;bottom:28px;background:#fff3c8;padding:12px;border-radius:8px;transform:rotate(2deg);font-size:14px;text-align:center}
+.you{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);font-size:20px;font-weight:bold;color:#9a4f78;white-space:nowrap}
+@media(max-width:500px){.hero{height:330px}.mascot{font-size:82px}.m1{left:4px}.m2{right:0}.content{padding-left:13px;padding-right:13px}.cozy{margin-left:-13px;margin-right:-13px}.sleep{left:37%}.note{font-size:12px}}
+</style>
+</head>
 <body>
-<div class="wrap">
-<header class="hero"><div class="bows">🎀 💕 🎀</div><div class="characters"><span class="bunny">🐰🌸</span><span class="bunny">😈🖤</span></div><h1>Mitsuki's<br>Magical Apps</h1><p>🌷 Learn, play & grow! 🌷</p></header>
-<main><h2 class="title">✨ Choose an adventure! ✨</h2>
-<a class="app" href="math/"><div class="preview"><span class="sun">☀️</span><span class="flower f1">🌷</span><span class="flower f2">🌸</span><span class="flower f3">🌼</span><span class="flower f4">🌷</span><div class="hill"></div><div class="mini">🐰🌸</div><div class="play">▶</div></div><div class="info"><h2>🌸 Magical Math Garden</h2><p>➕ Practice addition &nbsp; • &nbsp; ➖ Practice subtraction &nbsp; • &nbsp; 🎀 Earn cute rewards</p></div></a>
-<div class="coming">💕 <strong>More magical apps coming soon!</strong>New adventures can be added right here.</div>
-</main><div class="footer">Made especially for Mitsuki 🌈💗</div>
+<div class="page">
+<section class="hero">
+<div class="awning"></div>
+<div class="hearts h1">💗</div><div class="hearts h2">💜</div><div class="hearts h3">💕</div><div class="hearts h4">💗</div>
+<div class="rainbow">🌈</div>
+<h1>Mitsuki's<span>Apps</span></h1>
+<div class="tag">Let's learn and have fun! 💕</div>
+<div class="mascot m1">🐰🌸</div><div class="mascot m2">😈🖤</div>
+</section>
+<main class="content">
+<a class="appcard" href="math/">
+<div class="garden"><div class="sun">☀️</div><div class="hill"></div><div class="flower fl1">🌷</div><div class="flower fl2">🌸</div><div class="flower fl3">🌼</div><div class="flower fl4">🌷</div><div class="butter">🦋</div><div class="girl">🐰🌸</div><div class="cardtext"><b>Magical Math Garden</b><span>Add, Subtract, and Grow!</span></div><div class="play">▶</div></div>
+</a>
+<div class="more"><div class="heart">💗　💜　💗</div><strong>More Apps Coming Soon!</strong><span>New adventures are on the way! ✨</span></div>
+<div class="cozy"><div class="window">☁️ 🌈<br><br>🌷 🌸 🌷</div><div class="books"><div>PLAY</div><div>LEARN</div><div>GROW</div><div>BE KIND</div></div><div class="sleep">🐰💤 😈💤</div><div class="note">Small<br>Steps<br>Big<br>Dreams<br>♥</div><div class="you">You can do it! ♥</div></div>
+</main>
 </div>
 </body></html>

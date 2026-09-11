@@ -1,52 +1,54 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Magical Math Garden</title>
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:"Trebuchet MS",system-ui,sans-serif;color:#543b57;background:linear-gradient(#bdeaff 0 30%,#dff7e3 72%,#bfe5b7);overflow-x:hidden}
-.wrap{width:min(820px,96%);margin:10px auto 25px}.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.home,.music{width:52px;height:52px;border-radius:18px;border:4px solid white;background:#fff1fa;color:#76517a;font-size:25px;box-shadow:0 4px #d8b7cf;cursor:pointer}.music.off{opacity:.5}
-.sign{flex:1;text-align:center;background:#fff9e8;border:4px solid #d5a77d;border-radius:22px;padding:8px 12px;box-shadow:0 5px #b88967}
-.sign b{font-size:clamp(22px,5vw,34px);color:#704b55}.sign small{display:block;color:#8a6570}
-.sky{position:relative;height:245px;margin-top:8px;border-radius:30px 30px 0 0;overflow:hidden}
-.cloud{position:absolute;font-size:45px;opacity:.8;animation:cloud 10s linear infinite}.c1{left:5%;top:18%}.c2{right:8%;top:10%;animation-delay:4s}
-@keyframes cloud{50%{transform:translateX(25px)}}
-.sun{position:absolute;right:9%;top:12px;font-size:52px}
-.ground{position:absolute;bottom:-50px;left:-5%;width:110%;height:150px;background:#94d38f;border-radius:50% 50% 0 0}
-.f{position:absolute;bottom:25px;font-size:38px;z-index:2;animation:sway 2s ease-in-out infinite}.f1{left:7%}.f2{left:20%;animation-delay:.3s}.f3{right:22%;animation-delay:.7s}.f4{right:7%;animation-delay:1s}
-@keyframes sway{50%{transform:rotate(7deg) translateY(-3px)}}
-.cast{position:absolute;z-index:4;bottom:25px;left:50%;transform:translateX(-50%);display:flex;gap:18px}.char{font-size:73px;filter:drop-shadow(0 5px white);animation:bob 2s ease-in-out infinite}.char:last-child{animation-delay:.45s}
-@keyframes bob{50%{transform:translateY(-9px) rotate(-3deg)}}
-.panel{background:#fffdfd;border:5px solid #f0bfd7;border-radius:30px;margin-top:-4px;position:relative;z-index:5;padding:14px 14px 20px;box-shadow:0 12px 30px #5e7c5520}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#fff5fb;border:2px solid #efd3e3;border-radius:17px;text-align:center;padding:7px 2px;font-size:12px;font-weight:bold}.stat b{display:block;font-size:21px;color:#95527e}
-.mode{display:flex;gap:9px;margin:12px 0}.mode button{flex:1;border:3px solid transparent;border-radius:18px;padding:11px;background:#eee4ff;color:#684c78;font:inherit;font-weight:bold;cursor:pointer}.mode .active{background:#ffd5e7;border-color:#e69cbd}
-.progress{height:13px;background:#f0e9f2;border-radius:20px;overflow:hidden;margin:0 5px 13px}.bar{height:100%;width:0;background:linear-gradient(90deg,#ff8fbd,#a88ae6);transition:.4s}
-.question{background:linear-gradient(135deg,#fff9fd,#fffdf1);border:3px solid #efdce7;border-radius:25px;text-align:center;padding:12px 10px 17px}.badge{display:inline-block;background:#fff0b5;border:2px solid #e2c55b;border-radius:20px;padding:5px 12px;font-weight:bold}.message{min-height:29px;color:#965079;font-weight:bold;font-size:18px;margin:7px 0}.problem{font-size:clamp(48px,13vw,82px);font-weight:900;line-height:1;margin:9px 0 20px;color:#4f3854}
-.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:500px;margin:auto}.answer{min-height:76px;border-radius:22px;border:3px solid #d9c1e8;background:#f0e3ff;box-shadow:0 5px #c2a5d4;color:#573d69;font-size:32px;font-weight:bold;cursor:pointer}.answer:active{transform:translateY(3px);box-shadow:0 2px #c2a5d4}.answer.correct{background:#d7f5dc;border-color:#86cf96;box-shadow:0 5px #70b27d;animation:pop .4s}.answer.wrong{background:#ffe0e8;border-color:#ed9aaa;animation:shake .35s}
-@keyframes pop{50%{transform:scale(1.08)}}@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
-.next{display:none;margin:16px auto 0;border:0;border-radius:20px;background:#c85f9f;color:white;padding:13px 25px;font-size:19px;font-weight:bold;box-shadow:0 5px #914275;cursor:pointer}
-.reward{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:10px}.box{border-radius:20px;padding:11px;background:#fff7d4;border:2px dashed #dfc05d;text-align:center}.box.green{background:#e5f7e8;border-color:#a8d6af}.box b{display:block}.stickers,.garden{font-size:27px;min-height:34px;letter-spacing:3px}
-.petal{position:fixed;z-index:20;pointer-events:none;font-size:27px;animation:fall 1.3s ease-out forwards}@keyframes fall{to{transform:translateY(90vh) rotate(500deg);opacity:0}}
-.modal{position:fixed;inset:0;background:#fff9;display:none;align-items:center;justify-content:center;z-index:30}.modal.show{display:flex}.modalin{width:min(440px,90%);background:#fff;border:5px solid #f0b8d4;border-radius:30px;padding:24px;text-align:center;box-shadow:0 15px 50px #5d416050}.modalin .big{font-size:62px}.modalin h2{color:#8c4876;font-size:29px;margin:5px}.modalin button{background:#c65e9d;color:#fff;border:0;border-radius:18px;padding:13px 25px;font:inherit;font-weight:bold}
-@media(max-width:450px){.sky{height:205px}.char{font-size:60px}.cast{bottom:22px}.answer{min-height:68px}.reward{grid-template-columns:1fr}}
-</style></head>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif;color:#563b55}
+body{background:linear-gradient(#bfeaff 0 38%,#dff4dc 72%,#a8d98f);overflow-x:hidden}
+.page{width:min(760px,100%);margin:auto;min-height:100vh;position:relative}
+.top{height:105px;display:grid;grid-template-columns:72px 1fr 72px;gap:10px;align-items:center;padding:10px}
+.icon{height:62px;width:62px;border:4px solid white;border-radius:18px;background:#fff7ff;color:#704c8b;box-shadow:0 4px #d2b2cf;font-size:32px;cursor:pointer}
+.sign{background:#fff5df;border:5px solid #bd8b68;border-radius:22px;text-align:center;padding:7px 4px;box-shadow:0 5px #a87859}.sign b{font-size:clamp(23px,5vw,34px);display:block;color:#684655}.sign small{font-size:12px}
+.sky{height:255px;position:relative;overflow:hidden}.cloud{position:absolute;font-size:48px;opacity:.8}.c1{left:3%;top:35px}.c2{right:5%;top:75px}.tree{position:absolute;font-size:80px;bottom:72px}.t1{left:0}.t2{right:0}.sun{position:absolute;right:25%;top:8px;font-size:45px}
+.fence{position:absolute;left:10%;right:10%;bottom:62px;height:48px;border-bottom:7px solid #fff;opacity:.9}.fence:before{content:"";position:absolute;inset:-5px 0 0;background:repeating-linear-gradient(90deg,transparent 0 34px,#fff 34px 42px);clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+.char{position:absolute;bottom:26px;font-size:90px;z-index:4;filter:drop-shadow(0 5px white);animation:bob 2.2s ease-in-out infinite}.char.left{left:23%}.char.right{right:13%;animation-delay:.45s}
+.chick{position:absolute;bottom:35px;left:49%;font-size:42px;z-index:5}.sign2{position:absolute;right:2%;bottom:72px;background:#fff2cf;border:3px solid #c8a26d;padding:7px 9px;transform:rotate(4deg);font-weight:bold;font-size:15px}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-2deg)}}
+.panel{background:#fff;border:5px solid #efbfd6;border-radius:30px 30px 0 0;position:relative;z-index:6;padding:13px 14px 25px;box-shadow:0 -8px 25px #688f6520}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.stat{background:#fff9fb;border:2px solid #efd1df;border-radius:16px;text-align:center;padding:6px 2px;font-size:12px;font-weight:bold}.stat b{display:block;font-size:21px;color:#704a66}
+.mode{display:flex;gap:8px;margin:11px 0 9px}.mode button{flex:1;padding:11px;border:3px solid transparent;border-radius:17px;background:#eee4ff;color:#65466f;font:inherit;font-weight:bold;cursor:pointer}.mode .active{background:#ffd4e6;border-color:#e999bb}
+.progress{height:12px;background:#eee9ef;border-radius:20px;overflow:hidden;margin:0 5px 12px}.bar{height:100%;width:0;background:linear-gradient(90deg,#ff83b8,#a886e3);transition:.35s}
+.question{background:#fff9ee;border:4px solid #d7b890;border-radius:23px;padding:12px 10px 17px;text-align:center}.badge{display:inline-block;background:#fff0b3;border:2px solid #e1c55c;border-radius:20px;padding:5px 13px;font-weight:bold}.message{min-height:27px;margin:6px 0;color:#975178;font-size:18px;font-weight:bold}
+.problem{font-size:clamp(52px,14vw,88px);font-weight:900;line-height:1;margin:12px 0 22px;color:#4c344a}
+.answers{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;max-width:510px;margin:auto}.answer{min-height:80px;border-radius:22px;font-size:34px;font-weight:bold;border:3px solid #d9c1e8;box-shadow:0 5px #c3a6d6;background:#efdcff;color:#533960;cursor:pointer}.answer:nth-child(1){background:#ffc9e0;border-color:#ef91b9}.answer:nth-child(2){background:#d8c8ff;border-color:#a995e7}.answer:nth-child(3){background:#b9e3ff;border-color:#77bfe9}.answer:nth-child(4){background:#c6f0d2;border-color:#8dcc9e}.answer:active{transform:translateY(3px);box-shadow:0 2px #b99bca}.answer.correct{animation:win .45s;background:#bdf0c8!important;border-color:#72bf83!important}.answer.wrong{animation:shake .35s;background:#ffd6df!important}
+@keyframes win{50%{transform:scale(1.08) rotate(2deg)}}@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.next{display:none;margin:16px auto 0;background:#f05d9f;color:white;border:0;border-radius:19px;padding:13px 28px;font:inherit;font-size:19px;font-weight:bold;box-shadow:0 5px #c44880;cursor:pointer}
+.bottomscene{margin:15px -14px -25px;height:180px;position:relative;overflow:hidden;background:linear-gradient(#c9edff,#e2f6df)}.bottomscene:after{content:"";position:absolute;left:-5%;bottom:-80px;width:110%;height:150px;background:#9ed891;border-radius:50% 50% 0 0}.path{position:absolute;z-index:2;bottom:-15px;left:38%;width:24%;height:145px;background:#e7d0aa;transform:perspective(100px) rotateX(4deg);clip-path:polygon(35% 0,65% 0,100% 100%,0 100%)}.bflower{position:absolute;z-index:3;font-size:35px;bottom:25px}.bf1{left:6%}.bf2{left:22%}.bf3{right:22%}.bf4{right:5%}.speech{position:absolute;z-index:5;background:white;border:3px solid #d9bfd1;border-radius:20px;padding:7px 12px;font-weight:bold;font-size:14px}.s1{left:5%;top:15px}.s2{right:4%;top:15px}
+.reward{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}.box{background:#fff7d5;border:2px dashed #dfc15d;border-radius:18px;text-align:center;padding:9px}.box.green{background:#e5f7e8;border-color:#a6d5ae}.box b{display:block}.stickers,.flowers{font-size:25px;min-height:31px;letter-spacing:2px}
+.petal{position:fixed;z-index:20;pointer-events:none;font-size:25px;animation:fall 1.3s ease-out forwards}@keyframes fall{to{transform:translateY(90vh) rotate(500deg);opacity:0}}
+.modal{position:fixed;inset:0;background:#fff9;display:none;align-items:center;justify-content:center;z-index:30}.modal.show{display:flex}.modalin{width:min(430px,90%);background:white;border:5px solid #efb9d5;border-radius:28px;padding:23px;text-align:center;box-shadow:0 15px 50px #5d416050}.modalin .big{font-size:58px}.modalin h2{color:#8b4773}.modalin button{background:#ef5e9f;color:white;border:0;border-radius:18px;padding:12px 23px;font:inherit;font-weight:bold}
+@media(max-width:470px){.top{grid-template-columns:57px 1fr 57px}.icon{width:52px;height:52px;font-size:26px}.sky{height:225px}.char{font-size:68px}.char.left{left:18%}.char.right{right:8%}.chick{font-size:34px}.sign2{font-size:12px}.panel{padding-left:10px;padding-right:10px}.bottomscene{margin-left:-10px;margin-right:-10px}.reward{grid-template-columns:1fr}}
+</style>
+</head>
 <body>
-<div class="wrap">
-<div class="top"><button class="home" onclick="location.href='../'">⌂</button><div class="sign"><b>🌸 Magical Math Garden 🌸</b><small>Mitsuki's happy little math adventure</small></div><button class="music" id="music" onclick="toggleMusic()">♫</button></div>
-<div class="sky"><div class="sun">☀️</div><div class="cloud c1">☁️</div><div class="cloud c2">☁️</div><div class="ground"></div><div class="f f1">🌷</div><div class="f f2">🌸</div><div class="f f3">🌼</div><div class="f f4">🌷</div><div class="cast"><span class="char">🐰🌸</span><span class="char">😈🖤</span></div></div>
+<div class="page">
+<div class="top"><button class="icon" onclick="location.href='../'">⌂</button><div class="sign"><b>Magical Math Garden</b><small>🌸 Mitsuki's happy math adventure 🌸</small></div><button class="icon" id="music" onclick="toggleMusic()">♫</button></div>
+<div class="sky"><div class="sun">☀️</div><div class="cloud c1">☁️</div><div class="cloud c2">☁️</div><div class="tree t1">🌳</div><div class="tree t2">🌳</div><div class="fence"></div><div class="char left">🐰🌸</div><div class="char right">😈🖤</div><div class="chick">🐥</div><div class="sign2">Good<br>Job! 💕</div></div>
 <div class="panel">
-<div class="stats"><div class="stat">⭐ Stars<b id="score">0</b></div><div class="stat">🔥 Streak<b id="streak">0</b></div><div class="stat">🌷 Flowers<b id="flowers">0</b></div><div class="stat">🏆 Level<b id="level">1</b></div></div>
+<div class="stats"><div class="stat">⭐<b id="score">12</b>Stars</div><div class="stat">🔥<b id="streak">3</b>Streak</div><div class="stat">🌸<b id="gardenCount">5/10</b>Garden</div><div class="stat">🏆<b id="level">1</b>Level</div></div>
 <div class="mode"><button id="add" class="active" onclick="setMode('add')">➕ Addition</button><button id="sub" onclick="setMode('sub')">➖ Subtraction</button></div>
 <div class="progress"><div class="bar" id="bar"></div></div>
-<div class="question"><span class="badge" id="badge">🌱 Garden Level 1</span><div class="message" id="message">Let's grow some flowers! 🌷</div><div class="problem" id="problem">2 + 3 = ?</div><div class="answers" id="answers"></div><button class="next" id="next" onclick="newProblem()">Next Adventure! 💕</button></div>
-<div class="reward"><div class="box"><b>🎀 Sticker Album</b><div class="stickers" id="stickers">—</div></div><div class="box green"><b>🌷 Flower Garden</b><div class="garden" id="garden">🌱</div></div></div>
+<div class="question"><span class="badge" id="badge">Level 1 · Numbers 1–5</span><div class="message" id="message">You can do it! 💗</div><div class="problem" id="problem">3 + 4 = ?</div><div class="answers" id="answers"></div><button class="next" id="next" onclick="newProblem()">Next! 🎀</button></div>
+<div class="reward"><div class="box"><b>🎀 Sticker Album</b><div class="stickers" id="stickers">🌸 ⭐ 🎀</div></div><div class="box green"><b>🌷 Your Garden</b><div class="flowers" id="flowers">🌷🌸🌼🌷🌸</div></div></div>
+<div class="bottomscene"><div class="speech s1">You can<br>do it! 💗</div><div class="speech s2">Take<br>your time! ♡</div><div class="path"></div><div class="bflower bf1">🌷</div><div class="bflower bf2">🌸</div><div class="bflower bf3">🌼</div><div class="bflower bf4">🌷</div></div>
 </div></div>
 <div class="modal" id="modal"><div class="modalin"><div class="big">🌸🐰⭐🖤</div><h2>Garden Level Up!</h2><p id="uptext">Your garden is growing!</p><button onclick="closeModal()">Keep Playing! 🎀</button></div></div>
 <script>
-let mode='add',a=2,b=3,answer=5,locked=false,score=0,streak=0,flowers=0,level=1,round=0,stickers=[];
+let mode='add',a=3,b=4,answer=7,locked=false,score=12,streak=3,flowers=5,level=1,round=0,stickers=['🌸','⭐','🎀'];
 const good=['Amazing! 🌸','You got it! 💕','Super math! ⭐','Wonderful! 🎀','Perfect! 🖤','Math magic! ✨'];
-const tryagain=['Good try! 🐰','Almost! Try again! 🌷','You can do it! 💕','Let’s try that one again! 🌸'];
+const retry=['Good try! 🐰','Almost! Try again! 🌷','You can do it! 💕','Take your time! 🌸'];
 function rand(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function setMode(m){mode=m;document.getElementById('add').classList.toggle('active',m==='add');document.getElementById('sub').classList.toggle('active',m==='sub');newProblem()}
 function maxNum(){return level===1?5:level===2?7:9}
@@ -61,16 +63,17 @@ function newProblem(){
 }
 function check(n,btn){
  if(locked)return;
- if(n!==answer){btn.classList.add('wrong');setTimeout(()=>btn.classList.remove('wrong'),400);streak=0;document.getElementById('message').textContent=tryagain[rand(0,tryagain.length-1)];update();return}
+ if(n!==answer){btn.classList.add('wrong');setTimeout(()=>btn.classList.remove('wrong'),400);streak=0;document.getElementById('message').textContent=retry[rand(0,retry.length-1)];update();return}
  locked=true;score++;streak++;flowers++;round++;btn.classList.add('correct');document.querySelectorAll('.answer').forEach(x=>x.disabled=true);document.getElementById('message').textContent=good[rand(0,good.length-1)];
- if(streak%3===0)earnSticker();if(round>=5){round=0;if(level<3){level++;showLevel()}}
+ if(streak%3===0)earnSticker();
+ if(round>=5){round=0;if(level<3){level++;showLevel()}}
  update();celebrate();document.getElementById('next').style.display='inline-block'
 }
-function earnSticker(){const p=['🌸','🎀','🍓','⭐','🩷','🦄','🌈','🍭','🐰','🖤','✨','🌷'];stickers.push(p[(stickers.length)%p.length]);document.getElementById('stickers').textContent=stickers.join(' ')}
-function update(){document.getElementById('score').textContent=score;document.getElementById('streak').textContent=streak;document.getElementById('flowers').textContent=flowers;document.getElementById('level').textContent=level;document.getElementById('badge').textContent=`🌱 Garden Level ${level}`;document.getElementById('garden').textContent='🌱'+'🌷'.repeat(Math.min(flowers,10))+(flowers>10?'🌸':'');document.getElementById('bar').style.width=(round/5*100)+'%'}
+function earnSticker(){const p=['🌸','🎀','🍓','⭐','🩷','🦄','🌈','🍭','🐰','🖤','✨','🌷'];stickers.push(p[stickers.length%p.length]);document.getElementById('stickers').textContent=stickers.join(' ')}
+function update(){document.getElementById('score').textContent=score;document.getElementById('streak').textContent=streak;document.getElementById('gardenCount').textContent=Math.min(flowers,10)+'/10';document.getElementById('level').textContent=level;document.getElementById('badge').textContent=`Level ${level} · Numbers 1–${maxNum()}`;document.getElementById('flowers').textContent='🌷'.repeat(Math.min(flowers,10));document.getElementById('bar').style.width=(round/5*100)+'%'}
 function showLevel(){document.getElementById('uptext').textContent=level===2?'Numbers are getting a little bigger! 🌷':'You reached the Magical Math Garden! 🌈';document.getElementById('modal').classList.add('show')}
 function closeModal(){document.getElementById('modal').classList.remove('show')}
-function celebrate(){const bits=['🌸','⭐','🎀','💕','✨','🌷'];for(let i=0;i<18;i++){let x=document.createElement('span');x.className='petal';x.textContent=bits[rand(0,bits.length-1)];x.style.left=rand(2,98)+'%';x.style.top=rand(5,25)+'%';x.style.animationDelay=(Math.random()*.2)+'s';document.body.appendChild(x);setTimeout(()=>x.remove(),1500)}}
+function celebrate(){const bits=['🌸','⭐','🎀','💕','✨','🌷'];for(let i=0;i<18;i++){let x=document.createElement('span');x.className='petal';x.textContent=bits[rand(0,bits.length-1)];x.style.left=rand(2,98)+'%';x.style.top=rand(3,20)+'%';x.style.animationDelay=(Math.random()*.2)+'s';document.body.appendChild(x);setTimeout(()=>x.remove(),1500)}}
 function toggleMusic(){let b=document.getElementById('music');b.classList.toggle('off');b.textContent=b.classList.contains('off')?'🔇':'♫'}
 newProblem()
 </script></body></html>

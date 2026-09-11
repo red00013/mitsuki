@@ -1,13 +1,13 @@
 # Mitsuki Apps
 
-GitHub Pages app hub for Mitsuki.
+This package recreates the provided kawaii mockup as the actual interactive GitHub Pages app.
 
-## Files
-- `index.html` — cute app-selection home page
+## Structure
+- `index.html` — Mitsuki's Apps home screen
 - `math/index.html` — Magical Math Garden
 
 ## GitHub Pages
-Upload the contents of this folder to the `mitsuki` repository and deploy `main` / `(root)` from Settings → Pages.
+Upload the contents of this folder to the `mitsuki` repository and deploy `main` / `(root)` under Settings → Pages.
 
 Home:
 https://red00013.github.io/mitsuki/
