@@ -1,9 +1,16 @@
 # Mitsuki Apps
 
-The home page is `index.html`. The math game is in `math/index.html`.
+GitHub Pages app hub for Mitsuki.
 
-Upload the contents of this folder to the `mitsuki` GitHub repository, replacing the previous files. GitHub Pages should serve the root `index.html` at:
+## Files
+- `index.html` — cute app-selection home page
+- `math/index.html` — Magical Math Garden
 
+## GitHub Pages
+Upload the contents of this folder to the `mitsuki` repository and deploy `main` / `(root)` from Settings → Pages.
+
+Home:
 https://red00013.github.io/mitsuki/
 
-The math game is linked from the home screen.
+Math:
+https://red00013.github.io/mitsuki/math/
