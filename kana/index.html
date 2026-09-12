@@ -28,11 +28,17 @@
     </section>
 
     <section class="practice-card">
-      <div class="character" id="character">あ</div>
-      <div class="romaji" id="romaji">a</div>
-      <div class="stroke-title">書き順</div>
-      <div class="stroke-order" id="strokeOrder"><div class="stroke-loading">Loading…</div></div>
-      <div class="hint">Trace the character with Apple Pencil</div>
+      <div class="instruction-row">
+        <div class="character-side">
+          <div class="character" id="character">あ</div>
+          <div class="romaji" id="romaji">a</div>
+          <div class="hint">Trace with Apple Pencil</div>
+        </div>
+        <div class="stroke-side">
+          <div class="stroke-title">書き順</div>
+          <div class="stroke-order" id="strokeOrder"><div class="stroke-loading">Loading…</div></div>
+        </div>
+      </div>
 
       <div class="canvas-wrap" id="canvasWrap">
         <canvas id="guideCanvas"></canvas>
