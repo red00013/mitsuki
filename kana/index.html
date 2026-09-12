@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#fffaf2">
+  <title>Mitsuki's Kana Practice</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="app">
+    <header>
+      <div>
+        <div class="eyebrow">MITSUKI'S JAPANESE</div>
+        <h1>Kana Practice</h1>
+      </div>
+      <button id="resetProgress" class="icon-btn" aria-label="Reset progress">↻</button>
+    </header>
+
+    <section class="mode-row">
+      <button class="mode active" data-mode="hiragana">あ Hiragana</button>
+      <button class="mode" data-mode="katakana">ア Katakana</button>
+    </section>
+
+    <section class="progress-wrap">
+      <div class="progress-label"><span id="progressText">1 / 46</span><span id="scoreText">0 stars</span></div>
+      <div class="progress"><div id="progressBar"></div></div>
+    </section>
+
+    <section class="practice-card">
+      <div class="character" id="character">あ</div>
+      <div class="romaji" id="romaji">a</div>
+      <div class="hint">Trace the character with Apple Pencil</div>
+
+      <div class="canvas-wrap" id="canvasWrap">
+        <canvas id="guideCanvas"></canvas>
+        <canvas id="drawCanvas"></canvas>
+      </div>
+
+      <div class="actions">
+        <button id="clearBtn" class="secondary">Clear</button>
+        <button id="checkBtn" class="primary">Check ✓</button>
+      </div>
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+    </section>
+
+    <section class="quick-nav">
+      <button id="prevBtn">←</button>
+      <div id="dots"></div>
+      <button id="nextBtn">→</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
