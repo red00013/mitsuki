@@ -1,0 +1,50 @@
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Rounded","Hiragino Sans",sans-serif;color:#302c2a;background:#fffaf2}
+body{margin:0;min-height:100vh;min-height:100dvh;background:radial-gradient(circle at 50% 0,#fff 0,#fffaf2 48%,#f7eee3 100%);touch-action:manipulation}
+button{font:inherit;border:0;cursor:pointer}
+.app{width:min(920px,100%);margin:auto;padding:clamp(18px,4vw,42px) clamp(16px,4vw,38px) 30px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.eyebrow{font-size:11px;letter-spacing:.16em;font-weight:800;color:#a27f68;margin-bottom:4px}
+h1{font-size:clamp(28px,5vw,40px);line-height:1;margin:0;font-weight:800;letter-spacing:-.04em}
+.icon-btn{width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid #eadfd4;color:#806b5b;font-size:24px;box-shadow:0 2px 8px #0000000d}
+.mode-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#eee7df;padding:5px;border-radius:16px;margin-bottom:18px}
+.mode{padding:12px;border-radius:12px;background:transparent;color:#806f62;font-weight:750}
+.mode.active{background:#fff;box-shadow:0 2px 7px #00000012;color:#342e2a}
+.random-btn{display:block;width:100%;padding:11px 14px;border-radius:13px;background:#fff;border:1px solid #eadfd4;color:#806f62;font-weight:750;margin-bottom:18px;box-shadow:0 2px 7px #00000008}
+.random-btn.active{background:#f5e6dc;color:#a05f43;border-color:#e5c7b5}
+.progress-wrap{margin:0 3px 18px}
+.progress-label{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:#8c786a;margin-bottom:7px}
+.progress{height:7px;border-radius:9px;background:#e8ddd2;overflow:hidden}
+.progress div{height:100%;width:2%;background:#d78d6d;border-radius:9px;transition:width .25s}
+.practice-card{background:#fff;border:1px solid #eee3d8;border-radius:28px;padding:22px;box-shadow:0 12px 38px #4b39290e;text-align:center}
+.instruction-row{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:18px;align-items:center;margin-bottom:14px}
+.character-side{text-align:center}
+.character{font-size:clamp(64px,11vw,96px);font-weight:500;line-height:.95;color:#332d2a}
+.romaji{font-size:19px;font-weight:800;color:#b47a5e;margin-top:6px}
+.hint{font-size:13px;color:#9b8c81;margin:9px 0 0}
+.stroke-side{text-align:center}
+.stroke-title{font-size:15px;font-weight:850;letter-spacing:.08em;color:#8d7565;margin-bottom:4px}
+.stroke-order{width:220px;height:180px;margin:0 auto;border-radius:18px;background:#fcfaf7;border:1px solid #eee2d7;display:flex;align-items:center;justify-content:center;overflow:hidden}.stroke-order svg{width:100%;height:100%}.stroke-loading{font-size:12px;color:#b4a69b}.stroke-number{fill:#d78d6d;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:220px;font-weight:900}
+.canvas-wrap{position:relative;width:100%;height:min(49vh,420px);min-height:280px;border-radius:20px;background:#fcfaf7;border:2px dashed #eaded2;overflow:hidden;touch-action:none}
+canvas{position:absolute;inset:0;width:100%;height:100%}
+#guideCanvas{opacity:.85}
+#drawCanvas{touch-action:none}
+.actions{display:flex;gap:10px;margin-top:14px}
+.actions button{flex:1;padding:14px;border-radius:15px;font-weight:800;font-size:16px}
+.secondary{background:#f3eee9;color:#76665a}
+.primary{background:#d78d6d;color:#fff;box-shadow:0 4px 10px #d78d6d38}
+.feedback{height:28px;margin-top:8px;font-weight:800;font-size:15px;color:#6b8d68}
+.quick-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:18px}
+.quick-nav>button{width:45px;height:45px;border-radius:50%;background:#fff;border:1px solid #eadfd4;color:#705f52;font-size:22px}
+#dots{display:flex;gap:5px;max-width:70%;overflow:hidden}
+.dot{width:7px;height:7px;border-radius:50%;background:#d9cbbf;flex:0 0 auto}
+.dot.active{background:#c87958;transform:scale(1.35)}
+@media (max-width:600px){
+  .app{padding-top:20px}.practice-card{padding:16px}.canvas-wrap{min-height:260px;height:42vh}
+  .instruction-row{grid-template-columns:minmax(0,1fr) 145px;gap:8px}
+  .stroke-order{width:145px;height:145px;border-radius:15px}
+  .stroke-title{font-size:13px}
+  .stroke-number{font-size:220px}
+  .character{font-size:clamp(58px,16vw,82px)}
+  .romaji{font-size:17px}
+}

@@ -1,79 +1,64 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Mitsuki's Apps</title>
-<style>
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif;color:#60415d}
-body{background:#ffddeb}
-.page{width:min(760px,100%);min-height:100vh;margin:auto;background:#fff8fb;overflow:hidden;box-shadow:0 0 35px #9d668044}
-.hero{height:355px;position:relative;overflow:hidden;text-align:center;padding-top:18px;background:linear-gradient(#f7c4d9,#ffe9f3)}
-.awning{height:75px;position:absolute;left:0;right:0;top:0;background:repeating-linear-gradient(90deg,#f6a8c9 0 62px,#ffd2e3 62px 124px);border-radius:0 0 30px 30px;box-shadow:inset 0 -7px #ee9cbd}
-.awning:after{content:"";position:absolute;left:50%;top:5px;transform:translateX(-50%);font-size:58px;content:"🎀"}
-.hearts{position:absolute;font-size:26px;opacity:.9}.h1{left:38px;top:105px}.h2{right:40px;top:155px}.h3{left:90px;top:245px}.h4{right:90px;top:235px}
-.rainbow{position:absolute;right:35px;top:112px;font-size:74px;opacity:.7}
-.hero h1{position:relative;margin:73px 0 0;font-size:clamp(45px,10vw,74px);line-height:.92;color:#ef5791;text-shadow:3px 4px white;letter-spacing:-2px}
-.hero h1 span{color:#7850c4;display:block}.tag{font-size:22px;margin-top:12px;color:#684c69}
-.mascot{position:absolute;bottom:-5px;font-size:105px;filter:drop-shadow(0 5px white);z-index:2}.m1{left:20px}.m2{right:12px}
-.content{padding:18px 25px 30px;background:linear-gradient(#fff7fb,#fffdfd)}
-.appcard{display:block;position:relative;text-decoration:none;color:#62435e;border:5px solid white;border-radius:28px;overflow:hidden;background:#d8f2dd;box-shadow:0 4px 0 #d9b9cd,0 9px 20px #9b6d8730;min-height:260px}
-.garden{height:205px;position:relative;overflow:hidden;background:linear-gradient(#aee2fa,#dff5d5 62%,#9bd68e)}
-.garden:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 15% 25%,#fff9 0 5px,transparent 6px),radial-gradient(circle at 70% 18%,#fff8 0 4px,transparent 5px)}
-.garden .sun{position:absolute;right:20px;top:10px;font-size:48px}.hill{position:absolute;left:-10%;bottom:-85px;width:120%;height:170px;background:#91cf88;border-radius:50% 50% 0 0}
-.garden .flower{position:absolute;bottom:22px;font-size:42px;z-index:3}.fl1{left:5%}.fl2{left:20%}.fl3{right:19%}.fl4{right:4%}
-.garden .girl{position:absolute;left:28px;bottom:13px;font-size:88px;z-index:4;filter:drop-shadow(0 4px white)}
-.garden .butter{position:absolute;right:32%;top:35px;font-size:30px}
-.play{position:absolute;right:24px;bottom:22px;width:82px;height:82px;border-radius:50%;background:#f35d9e;color:white;border:6px solid white;display:grid;place-items:center;font-size:38px;z-index:6;box-shadow:0 5px #ce4783}
-.cardtext{position:absolute;left:0;right:0;top:11px;text-align:center;z-index:7;text-shadow:2px 2px white}.cardtext b{display:block;font-size:31px;color:#e85290}.cardtext span{font-size:18px;color:#704e61}
-.more{margin:18px 9px 0;min-height:135px;border:3px dashed #efb9d2;border-radius:25px;text-align:center;padding:20px;background:#fff8fb;position:relative}
-.more .heart{font-size:27px}.more strong{display:block;font-size:22px;color:#7a5675;margin:5px}
-.cozy{height:260px;margin:18px -25px -30px;padding:20px 28px;position:relative;overflow:hidden;background:linear-gradient(#ffe5ee,#ffd9e7)}
-.window{position:absolute;right:20px;top:12px;width:155px;height:120px;border:7px solid #f2b6c9;border-radius:12px;background:linear-gradient(#c8ecff,#fff)}
-.books{position:absolute;left:18px;bottom:22px;font-size:22px;line-height:1.05}.books div{padding:5px 14px;border-radius:5px;margin-top:2px;background:#ffc4d9;border:2px solid #e8a3c0}
-.sleep{position:absolute;left:42%;bottom:-12px;font-size:78px;filter:drop-shadow(0 4px white)}
-.note{position:absolute;right:17px;bottom:28px;background:#fff3c8;padding:12px;border-radius:8px;transform:rotate(2deg);font-size:14px;text-align:center}
-.you{position:absolute;bottom:7px;left:50%;transform:translateX(-50%);font-size:20px;font-weight:bold;color:#9a4f78;white-space:nowrap}
-.kana-card{background:#f7e8ff;margin-top:18px}
-.kana-scene{height:205px;position:relative;overflow:hidden;background:linear-gradient(#d9c7f5,#f7e5f3 58%,#d6efcf)}
-.kana-cloud{position:absolute;left:24px;top:22px;font-size:35px;opacity:.75}
-.kana-sakura{position:absolute;right:22px;top:16px;font-size:31px;opacity:.85}
-.kana-character{position:absolute;left:50%;top:63px;transform:translateX(-50%);font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:76px;font-weight:600;color:#8052b5;text-shadow:3px 3px white;white-space:nowrap}
-.kana-character span{color:#e85290;margin-left:18px}
-.kana-pencil{position:absolute;left:27%;bottom:23px;font-size:43px;transform:rotate(-25deg);z-index:4;filter:drop-shadow(0 3px white)}
-.kana-butterfly{position:absolute;right:31%;bottom:26px;font-size:30px;z-index:4}
-@media(max-width:500px){.hero{height:330px}.mascot{font-size:82px}.m1{left:4px}.m2{right:0}.content{padding-left:13px;padding-right:13px}.cozy{margin-left:-13px;margin-right:-13px}.sleep{left:37%}.note{font-size:12px}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#fffaf2">
+  <title>Mitsuki's Kana Practice</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="page">
-<section class="hero">
-<div class="awning"></div>
-<div class="hearts h1">💗</div><div class="hearts h2">💜</div><div class="hearts h3">💕</div><div class="hearts h4">💗</div>
-<div class="rainbow">🌈</div>
-<h1>Mitsuki's<span>Apps</span></h1>
-<div class="tag">Let's learn and have fun! 💕</div>
-<div class="mascot m1">🐰🌸</div><div class="mascot m2">😈🖤</div>
-</section>
-<main class="content">
-<a class="appcard" href="math/">
-<div class="garden"><div class="sun">☀️</div><div class="hill"></div><div class="flower fl1">🌷</div><div class="flower fl2">🌸</div><div class="flower fl3">🌼</div><div class="flower fl4">🌷</div><div class="butter">🦋</div><div class="girl">🐰🌸</div><div class="cardtext"><b>Magical Math Garden</b><span>Add, Subtract, and Grow!</span></div><div class="play">▶</div></div>
-</a>
+  <main class="app">
+    <header>
+      <div>
+        <div class="eyebrow">MITSUKI'S JAPANESE</div>
+        <h1>Kana Practice</h1>
+      </div>
+      <button id="resetProgress" class="icon-btn" aria-label="Reset progress">↻</button>
+    </header>
 
-<a class="appcard kana-card" href="kana/">
-<div class="kana-scene">
-  <div class="kana-cloud">☁️</div>
-  <div class="kana-sakura">🌸　🌸</div>
-  <div class="kana-character">あ <span>ア</span></div>
-  <div class="kana-pencil">✏️</div>
-  <div class="kana-butterfly">🦋</div>
-  <div class="cardtext"><b>Kana Practice</b><span>Practice Hiragana &amp; Katakana!</span></div>
-  <div class="play">▶</div>
-</div>
-</a>
+    <section class="mode-row">
+      <button class="mode active" data-mode="hiragana">あ Hiragana</button>
+      <button class="mode" data-mode="katakana">ア Katakana</button>
+    </section>
+    <button id="randomBtn" class="random-btn">🔀 Random Order: Off</button>
 
-<div class="more"><div class="heart">💗　💜　💗</div><strong>More Apps Coming Soon!</strong><span>New adventures are on the way! ✨</span></div>
-<div class="cozy"><div class="window">☁️ 🌈<br><br>🌷 🌸 🌷</div><div class="books"><div>PLAY</div><div>LEARN</div><div>GROW</div><div>BE KIND</div></div><div class="sleep">🐰💤 😈💤</div><div class="note">Small<br>Steps<br>Big<br>Dreams<br>♥</div><div class="you">You can do it! ♥</div></div>
-</main>
-</div>
-</body></html>
+    <section class="progress-wrap">
+      <div class="progress-label"><span id="progressText">1 / 46</span><span id="scoreText">0 stars</span></div>
+      <div class="progress"><div id="progressBar"></div></div>
+    </section>
+
+    <section class="practice-card">
+      <div class="instruction-row">
+        <div class="character-side">
+          <div class="character" id="character">あ</div>
+          <div class="romaji" id="romaji">a</div>
+          <div class="hint">Trace with Apple Pencil</div>
+        </div>
+        <div class="stroke-side">
+          <div class="stroke-title">書き順</div>
+          <div class="stroke-order" id="strokeOrder"><div class="stroke-loading">Loading…</div></div>
+        </div>
+      </div>
+
+      <div class="canvas-wrap" id="canvasWrap">
+        <canvas id="guideCanvas"></canvas>
+        <canvas id="drawCanvas"></canvas>
+      </div>
+
+      <div class="actions">
+        <button id="clearBtn" class="secondary">Clear</button>
+        <button id="checkBtn" class="primary">Check ✓</button>
+      </div>
+      <div id="feedback" class="feedback" aria-live="polite"></div>
+    </section>
+
+    <section class="quick-nav">
+      <button id="prevBtn">←</button>
+      <div id="dots"></div>
+      <button id="nextBtn">→</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

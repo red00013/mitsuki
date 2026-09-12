@@ -1,16 +1,26 @@
-# Mitsuki Apps
+# Mitsuki Kana Practice
 
-This package recreates the provided kawaii mockup as the actual interactive GitHub Pages app.
-
-## Structure
-- `index.html` — Mitsuki's Apps home screen
-- `math/index.html` — Magical Math Garden
+A lightweight, offline-friendly Hiragana and Katakana tracing app designed for iPad + Apple Pencil.
 
 ## GitHub Pages
-Upload the contents of this folder to the `mitsuki` repository and deploy `main` / `(root)` under Settings → Pages.
 
-Home:
-https://red00013.github.io/mitsuki/
+Upload this folder as a subfolder in the Mitsuki repository, for example:
 
-Math:
-https://red00013.github.io/mitsuki/math/
+`kana/`
+
+Then enable GitHub Pages for the repository. The app will be available at:
+
+`https://YOUR-USERNAME.github.io/YOUR-REPOSITORY/kana/`
+
+## Features
+- Hiragana and Katakana modes
+- All 46 basic kana in each mode
+- Large tracing area optimized for touch/Apple Pencil
+- Faint character guide plus center guides
+- Clear / Check controls
+- Stars saved locally on the iPad
+- Optional Random Order mode to practice kana in a shuffled sequence
+- No external libraries, build step, or server required
+
+## Note
+The app currently treats a non-empty tracing as a successful attempt. This keeps the app simple and reliable on iPad. A later version could add actual stroke-order/path accuracy scoring.
