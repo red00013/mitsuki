@@ -16,7 +16,7 @@ h1{font-size:clamp(28px,5vw,40px);line-height:1;margin:0;font-weight:800;letter-
 .progress div{height:100%;width:2%;background:#d78d6d;border-radius:9px;transition:width .25s}
 .practice-card{background:#fff;border:1px solid #eee3d8;border-radius:28px;padding:22px;box-shadow:0 12px 38px #4b39290e;text-align:center}
 .character{font-size:clamp(58px,11vw,88px);font-weight:500;line-height:.95;color:#332d2a}
-.romaji{font-size:19px;font-weight:800;color:#b47a5e;margin-top:5px}
+.romaji{font-size:19px;font-weight:800;color:#b47a5e;margin-top:5px}.stroke-title{font-size:12px;font-weight:800;letter-spacing:.08em;color:#9b8c81;margin-top:12px}.stroke-order{width:150px;height:100px;margin:5px auto 10px;border-radius:14px;background:#fcfaf7;border:1px solid #eee2d7;display:flex;align-items:center;justify-content:center;overflow:hidden}.stroke-order svg{width:100%;height:100%}.stroke-loading{font-size:11px;color:#b4a69b}.stroke-number{fill:#d78d6d;font-family:-apple-system,BlinkMacSystemFont,sans-serif;font-size:42px;font-weight:800}
 .hint{font-size:13px;color:#9b8c81;margin:8px 0 14px}
 .canvas-wrap{position:relative;width:100%;height:min(49vh,420px);min-height:280px;border-radius:20px;background:#fcfaf7;border:2px dashed #eaded2;overflow:hidden;touch-action:none}
 canvas{position:absolute;inset:0;width:100%;height:100%}

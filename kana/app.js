@@ -4,6 +4,8 @@ const sets={
 };
 
 let mode="hiragana", index=0, stars=Number(localStorage.getItem("kanaStars")||0);
+let kanaData={hiragana:[],katakana:[]};
+const DATA_URL={hiragana:"https://cdn.jsdelivr.net/npm/kana-svg-data/dist/allHiragana.json",katakana:"https://cdn.jsdelivr.net/npm/kana-svg-data/dist/allKatakana.json"};
 const $=id=>document.getElementById(id);
 const guide=$("guideCanvas"), draw=$("drawCanvas"), wrap=$("canvasWrap");
 let strokes=[], current=[], drawing=false;
@@ -35,6 +37,29 @@ draw.addEventListener("pointermove",e=>{if(!drawing)return;e.preventDefault();cu
 draw.addEventListener("pointerup",e=>{if(!drawing)return;drawing=false;if(current.length>2)strokes.push(current);current=[];redraw()});
 draw.addEventListener("pointercancel",()=>{drawing=false;current=[];redraw()});
 
+async function loadStrokeData(){
+  try{
+    const [h,k]=await Promise.all([fetch(DATA_URL.hiragana).then(r=>r.json()),fetch(DATA_URL.katakana).then(r=>r.json())]);
+    kanaData.hiragana=h;kanaData.katakana=k;renderStrokeOrder();
+  }catch(e){$("strokeOrder").innerHTML=`<div class="stroke-loading">書き順を読み込めませんでした</div>`}
+}
+function renderStrokeOrder(){
+  const ch=sets[mode][index][0];
+  const item=kanaData[mode].find(x=>String.fromCodePoint(x.charCode)===ch);
+  const box=$("strokeOrder");
+  if(!item){box.innerHTML="";return}
+  let paths="", nums="", seen=new Set();
+  for(const st of item.strokes){
+    paths+=`<path d="${st.value}" fill="#d9c9bc"/>`;
+    const n=String(st.id).match(/^\d+/)?.[0];
+    if(!seen.has(n)){
+      const med=item.medians.find(m=>String(m.id)===String(st.id))?.value || item.medians.find(m=>String(m.id).startsWith(n))?.value;
+      if(med&&med.length){const [x,y]=med[0];nums+=`<circle cx="${x}" cy="${y}" r="34" fill="#fffaf2"/><text x="${x}" y="${y+14}" text-anchor="middle" class="stroke-number">${n}</text>`;}
+      seen.add(n);
+    }
+  }
+  box.innerHTML=`<svg viewBox="0 0 1024 1024" aria-label="${ch} stroke order">${paths}${nums}</svg>`;
+}
 function render(){
   const [ch,ro]=sets[mode][index];$("character").textContent=ch;$("romaji").textContent=ro;
   $("progressText").textContent=`${index+1} / ${sets[mode].length}`;$("scoreText").textContent=`${stars} ${stars===1?"star":"stars"}`;
@@ -50,10 +75,11 @@ $("checkBtn").onclick=()=>{
   $("feedback").textContent="Great tracing! ⭐";
   setTimeout(()=>next(),650);
 };
-function next(){index=(index+1)%sets[mode].length;render()}
-function prev(){index=(index-1+sets[mode].length)%sets[mode].length;render()}
+function next(){index=(index+1)%sets[mode].length;render();renderStrokeOrder()}
+function prev(){index=(index-1+sets[mode].length)%sets[mode].length;render();renderStrokeOrder()}
 $("nextBtn").onclick=next;$("prevBtn").onclick=prev;
-document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{mode=b.dataset.mode;index=0;render()});
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{mode=b.dataset.mode;index=0;render();renderStrokeOrder()});
 $("resetProgress").onclick=()=>{if(confirm("Reset stars and start over?")){stars=0;localStorage.removeItem("kanaStars");index=0;render()}};
 window.addEventListener("resize",resize);
 render();
+loadStrokeData();
