@@ -3,7 +3,7 @@ const sets={
   katakana:[["ア","a"],["イ","i"],["ウ","u"],["エ","e"],["オ","o"],["カ","ka"],["キ","ki"],["ク","ku"],["ケ","ke"],["コ","ko"],["サ","sa"],["シ","shi"],["ス","su"],["セ","se"],["ソ","so"],["タ","ta"],["チ","chi"],["ツ","tsu"],["テ","te"],["ト","to"],["ナ","na"],["ニ","ni"],["ヌ","nu"],["ネ","ne"],["ノ","no"],["ハ","ha"],["ヒ","hi"],["フ","fu"],["ヘ","he"],["ホ","ho"],["マ","ma"],["ミ","mi"],["ム","mu"],["メ","me"],["モ","mo"],["ヤ","ya"],["ユ","yu"],["ヨ","yo"],["ラ","ra"],["リ","ri"],["ル","ru"],["レ","re"],["ロ","ro"],["ワ","wa"],["ヲ","wo"],["ン","n"]]
 };
 
-let mode="hiragana", index=0, stars=Number(localStorage.getItem("kanaStars")||0);
+let mode="hiragana", index=0, stars=Number(localStorage.getItem("kanaStars")||0), randomOrder=false, randomSequence=[];
 let kanaData={hiragana:[],katakana:[]};
 const DATA_URL={hiragana:"https://cdn.jsdelivr.net/npm/kana-svg-data/dist/allHiragana.json",katakana:"https://cdn.jsdelivr.net/npm/kana-svg-data/dist/allKatakana.json"};
 const $=id=>document.getElementById(id);
@@ -60,11 +60,24 @@ function renderStrokeOrder(){
   }
   box.innerHTML=`<svg viewBox="0 0 1024 1024" aria-label="${ch} stroke order">${paths}${nums}</svg>`;
 }
+function buildRandomSequence(){
+  randomSequence=Array.from({length:sets[mode].length},(_,i)=>i);
+  for(let i=randomSequence.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [randomSequence[i],randomSequence[j]]=[randomSequence[j],randomSequence[i]];
+  }
+}
+function currentItem(){
+  return sets[mode][randomOrder ? randomSequence[index] : index];
+}
 function render(){
-  const [ch,ro]=sets[mode][index];$("character").textContent=ch;$("romaji").textContent=ro;
+  const [ch,ro]=currentItem();$("character").textContent=ch;$("romaji").textContent=ro;
   $("progressText").textContent=`${index+1} / ${sets[mode].length}`;$("scoreText").textContent=`${stars} ${stars===1?"star":"stars"}`;
   $("progressBar").style.width=`${((index+1)/sets[mode].length)*100}%`;
   document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
+  const rb=$("randomBtn");
+  rb.textContent=randomOrder?"🔀 Random Order: On":"🔀 Random Order: Off";
+  rb.classList.toggle("active",randomOrder);
   $("feedback").textContent="";strokes=[];current=[];resize();renderDots();
 }
 function renderDots(){const d=$("dots");d.innerHTML="";sets[mode].forEach((_,i)=>{const x=document.createElement("span");x.className="dot"+(i===index?" active":"");d.appendChild(x)})}

@@ -19,6 +19,7 @@ Then enable GitHub Pages for the repository. The app will be available at:
 - Faint character guide plus center guides
 - Clear / Check controls
 - Stars saved locally on the iPad
+- Optional Random Order mode to practice kana in a shuffled sequence
 - No external libraries, build step, or server required
 
 ## Note
