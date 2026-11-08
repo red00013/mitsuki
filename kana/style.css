@@ -48,3 +48,21 @@ canvas{position:absolute;inset:0;width:100%;height:100%}
   .character{font-size:clamp(58px,16vw,82px)}
   .romaji{font-size:17px}
 }
+
+/* ---------- Quiz mode + celebrations ---------- */
+.hidden{display:none!important}
+.view-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;background:#eee7df;padding:5px;border-radius:16px;margin-bottom:18px}
+.view{padding:12px;border-radius:12px;background:transparent;color:#806f62;font-weight:750}
+.view.active{background:#fff;box-shadow:0 2px 7px #00000012;color:#342e2a}
+.quiz-card{background:#fff;border:1px solid #eee3d8;border-radius:28px;padding:22px;box-shadow:0 12px 38px #4b39290e;text-align:center}
+.quiz-prompt{font-size:22px;font-weight:800;color:#342e2a;margin-bottom:16px}
+.quiz-prompt span{color:#c87958;font-size:26px}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.quiz-option{padding:26px 10px;border-radius:18px;background:#fcfaf7;border:2px solid #eaded2;font-size:56px;font-weight:500;color:#332d2a}
+.quiz-option.correct{background:#e3f2e1;border-color:#6b8d68}
+.quiz-option.wrong{background:#fbe9e5;border-color:#d78d6d;animation:shake .3s}
+.quiz-option:disabled{opacity:.9;cursor:default}
+.quiz-next{margin-top:14px;padding:12px 20px;border-radius:14px;background:#f3eee9;color:#76665a;font-weight:800}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.confetti-piece{position:fixed;top:-12px;width:10px;height:14px;border-radius:2px;z-index:9999;pointer-events:none;animation:fall 1.5s ease-in forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.7}}

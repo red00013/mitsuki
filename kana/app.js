@@ -4,11 +4,24 @@ const sets={
 };
 
 let mode="hiragana", index=0, stars=Number(localStorage.getItem("kanaStars")||0), randomOrder=false, randomSequence=[];
+let quiz=false, streak=Number(localStorage.getItem("kanaStreak")||0), quizAnswer=null;
 let kanaData={hiragana:[],katakana:[]};
 const DATA_URL={hiragana:"https://cdn.jsdelivr.net/npm/kana-svg-data/dist/allHiragana.json",katakana:"https://cdn.jsdelivr.net/npm/kana-svg-data/dist/allKatakana.json"};
 const $=id=>document.getElementById(id);
 const guide=$("guideCanvas"), draw=$("drawCanvas"), wrap=$("canvasWrap");
 let strokes=[], current=[], drawing=false;
+
+/* ---------- Fun: sounds, confetti, praise ---------- */
+const PRAISE=["すごい！","Amazing! ⭐","You did it! 🎉","Great job!","すばらしい！","Wow, nice! 🌸","やった！"];
+let audioCtx=null;
+function tone(f0,f1,dur,type){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type||"sine";o.frequency.setValueAtTime(f0,audioCtx.currentTime);o.frequency.exponentialRampToValueAtTime(Math.max(f1,1),audioCtx.currentTime+dur/1000);g.gain.setValueAtTime(.16,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur/1000);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur/1000);}catch(e){}}
+function ding(){tone(660,1320,220,"sine");setTimeout(()=>tone(880,1760,180,"sine"),90);}
+function buzz(){tone(220,140,220,"triangle");}
+function confetti(){const colors=["#ff6b6b","#4ecdc4","#ffd93d","#9b7ede","#ffa94d","#d78d6d"];for(let i=0;i<28;i++){const s=document.createElement("span");s.className="confetti-piece";s.style.left=(8+Math.random()*84)+"vw";s.style.background=colors[i%colors.length];s.style.animationDelay=(Math.random()*.35)+"s";document.body.appendChild(s);setTimeout(()=>s.remove(),1800);}}
+function praise(){return PRAISE[Math.floor(Math.random()*PRAISE.length)];}
+function updateHud(){$("scoreText").textContent=`${stars} ${stars===1?"star":"stars"}`;$("streakText").textContent=`🔥 ${streak}`;}
+function awardStar(){stars++;localStorage.setItem("kanaStars",stars);streak++;localStorage.setItem("kanaStreak",streak);updateHud();ding();confetti();return praise();}
+function breakStreak(){streak=0;localStorage.setItem("kanaStreak",streak);updateHud();}
 
 function resize(){
   const r=wrap.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2);
@@ -22,7 +35,7 @@ function drawGuide(){
   ctx.strokeStyle="#e9ddd2";ctx.lineWidth=2;ctx.setLineDash([6,7]);
   ctx.beginPath();ctx.moveTo(r.width/2,18);ctx.lineTo(r.width/2,r.height-18);ctx.moveTo(18,r.height/2);ctx.lineTo(r.width-18,r.height/2);ctx.stroke();ctx.setLineDash([]);
   ctx.font=`${Math.min(r.height*.68,250)}px "Hiragino Sans", sans-serif`;ctx.textAlign="center";ctx.textBaseline="middle";
-  ctx.fillStyle="#eadfd5";ctx.fillText(sets[mode][index][0],r.width/2,r.height/2+4);
+  ctx.fillStyle="#eadfd5";ctx.fillText(currentItem()[0],r.width/2,r.height/2+4);
 }
 function pos(e){const r=draw.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
 function redraw(){
@@ -44,7 +57,7 @@ async function loadStrokeData(){
   }catch(e){$("strokeOrder").innerHTML=`<div class="stroke-loading">書き順を読み込めませんでした</div>`}
 }
 function renderStrokeOrder(){
-  const ch=sets[mode][index][0];
+  const ch=currentItem()[0];
   const item=kanaData[mode].find(x=>String.fromCodePoint(x.charCode)===ch);
   const box=$("strokeOrder");
   if(!item){box.innerHTML="";return}
@@ -72,7 +85,7 @@ function currentItem(){
 }
 function render(){
   const [ch,ro]=currentItem();$("character").textContent=ch;$("romaji").textContent=ro;
-  $("progressText").textContent=`${index+1} / ${sets[mode].length}`;$("scoreText").textContent=`${stars} ${stars===1?"star":"stars"}`;
+  $("progressText").textContent=`${index+1} / ${sets[mode].length}`;updateHud();
   $("progressBar").style.width=`${((index+1)/sets[mode].length)*100}%`;
   document.querySelectorAll(".mode").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
   const rb=$("randomBtn");
@@ -84,15 +97,61 @@ function renderDots(){const d=$("dots");d.innerHTML="";sets[mode].forEach((_,i)=
 $("clearBtn").onclick=()=>{strokes=[];current=[];redraw();$("feedback").textContent=""};
 $("checkBtn").onclick=()=>{
   if(strokes.length===0){$("feedback").textContent="Try tracing first ✏️";return}
-  stars++;localStorage.setItem("kanaStars",stars);
-  $("feedback").textContent="Great tracing! ⭐";
-  setTimeout(()=>next(),650);
+  $("feedback").textContent=awardStar();
+  setTimeout(()=>next(),900);
 };
 function next(){index=(index+1)%sets[mode].length;render();renderStrokeOrder()}
 function prev(){index=(index-1+sets[mode].length)%sets[mode].length;render();renderStrokeOrder()}
 $("nextBtn").onclick=next;$("prevBtn").onclick=prev;
-document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{mode=b.dataset.mode;index=0;render();renderStrokeOrder()});
-$("resetProgress").onclick=()=>{if(confirm("Reset stars and start over?")){stars=0;localStorage.removeItem("kanaStars");index=0;render()}};
+document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{mode=b.dataset.mode;index=0;if(randomOrder)buildRandomSequence();render();renderStrokeOrder();if(quiz)startQuiz()});
+$("randomBtn").onclick=()=>{randomOrder=!randomOrder;if(randomOrder)buildRandomSequence();index=0;render();renderStrokeOrder()};
+$("resetProgress").onclick=()=>{if(confirm("Reset stars and streak and start over?")){stars=0;streak=0;localStorage.removeItem("kanaStars");localStorage.removeItem("kanaStreak");index=0;render()}};
+/* ---------- Quiz mode ---------- */
+function setView(q){
+  quiz=q;
+  $("traceViewBtn").classList.toggle("active",!q);
+  $("quizViewBtn").classList.toggle("active",q);
+  document.querySelector(".practice-card").classList.toggle("hidden",q);
+  document.querySelector(".quick-nav").classList.toggle("hidden",q);
+  $("quizCard").classList.toggle("hidden",!q);
+  if(q)startQuiz();else render();
+}
+$("traceViewBtn").onclick=()=>setView(false);
+$("quizViewBtn").onclick=()=>setView(true);
+function startQuiz(){
+  const list=sets[mode],ans=Math.floor(Math.random()*list.length);
+  quizAnswer=ans;
+  const picks=new Set([ans]);
+  while(picks.size<4)picks.add(Math.floor(Math.random()*list.length));
+  const opts=[...picks];
+  for(let i=opts.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[opts[i],opts[j]]=[opts[j],opts[i]];}
+  $("quizPrompt").textContent=list[ans][1];
+  $("progressText").textContent="Quiz mode 🎯";
+  const box=$("quizOptions");box.innerHTML="";
+  for(const oi of opts){
+    const b=document.createElement("button");
+    b.className="quiz-option";b.textContent=list[oi][0];
+    b.onclick=()=>answerQuiz(b,oi===ans);
+    box.appendChild(b);
+  }
+  $("quizFeedback").textContent="";
+  $("quizNextBtn").style.visibility="hidden";
+}
+function answerQuiz(btn,correct){
+  if(correct){
+    btn.classList.add("correct");
+    document.querySelectorAll(".quiz-option").forEach(b=>b.disabled=true);
+    $("quizFeedback").textContent=awardStar();
+    $("quizNextBtn").style.visibility="visible";
+    setTimeout(()=>{if(quiz)startQuiz()},1200);
+  }else{
+    btn.classList.add("wrong");btn.disabled=true;
+    breakStreak();buzz();
+    $("quizFeedback").textContent="Oops, try again! 💪";
+  }
+}
+$("quizNextBtn").onclick=()=>startQuiz();
+
 window.addEventListener("resize",resize);
 render();
 loadStrokeData();

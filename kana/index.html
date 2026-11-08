@@ -21,10 +21,14 @@
       <button class="mode active" data-mode="hiragana">あ Hiragana</button>
       <button class="mode" data-mode="katakana">ア Katakana</button>
     </section>
+    <section class="view-row">
+      <button class="view active" id="traceViewBtn">✏️ Trace</button>
+      <button class="view" id="quizViewBtn">🎯 Quiz</button>
+    </section>
     <button id="randomBtn" class="random-btn">🔀 Random Order: Off</button>
 
     <section class="progress-wrap">
-      <div class="progress-label"><span id="progressText">1 / 46</span><span id="scoreText">0 stars</span></div>
+      <div class="progress-label"><span id="progressText">1 / 46</span><span id="streakText">🔥 0</span><span id="scoreText">0 stars</span></div>
       <div class="progress"><div id="progressBar"></div></div>
     </section>
 
@@ -51,6 +55,13 @@
         <button id="checkBtn" class="primary">Check ✓</button>
       </div>
       <div id="feedback" class="feedback" aria-live="polite"></div>
+    </section>
+
+    <section class="quiz-card hidden" id="quizCard">
+      <div class="quiz-prompt">Which one is “<span id="quizPrompt">ka</span>”?</div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div id="quizFeedback" class="feedback" aria-live="polite"></div>
+      <button id="quizNextBtn" class="secondary quiz-next">Next question →</button>
     </section>
 
     <section class="quick-nav">
