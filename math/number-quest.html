@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Bunny Number Quest</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif;color:#563b55}
+body{background:linear-gradient(#ffe9a3 0 30%,#fff3d6 58%,#ffd9e8);overflow-x:hidden}
+.page{width:min(760px,100%);margin:auto;min-height:100vh;position:relative}
+.top{height:105px;display:grid;grid-template-columns:72px 1fr 72px;gap:10px;align-items:center;padding:10px}
+.icon{height:62px;width:62px;border:4px solid white;border-radius:18px;background:#fff7ff;color:#704c8b;box-shadow:0 4px #d2b2cf;font-size:32px;cursor:pointer}
+.sign{background:#fff5df;border:5px solid #bd8b68;border-radius:22px;text-align:center;padding:7px 4px;box-shadow:0 5px #a87859}.sign b{font-size:clamp(22px,5vw,33px);display:block;color:#684655}.sign small{font-size:12px}
+.sky{height:225px;position:relative;overflow:hidden}.cloud{position:absolute;font-size:48px;opacity:.85}.c1{left:4%;top:30px}.c2{right:6%;top:70px}.sun{position:absolute;right:24%;top:6px;font-size:46px}
+.hill{position:absolute;left:-10%;bottom:-90px;width:120%;height:170px;background:#ffd23e;border-radius:50% 50% 0 0}
+.bunny{position:absolute;bottom:22px;font-size:96px;z-index:4;filter:drop-shadow(0 5px white);animation:bob 2.2s ease-in-out infinite;left:38%}
+.carrot{position:absolute;bottom:30px;font-size:40px;z-index:5}.car1{left:18%}.car2{right:16%}
+.sign2{position:absolute;right:2%;bottom:60px;background:#fff2cf;border:3px solid #c8a26d;padding:7px 9px;transform:rotate(4deg);font-weight:bold;font-size:15px;z-index:5}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-2deg)}}
+.panel{background:#fff;border:5px solid #efbfd6;border-radius:30px 30px 0 0;position:relative;z-index:6;padding:13px 14px 25px;box-shadow:0 -8px 25px #688f6520}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.stat{background:#fff9fb;border:2px solid #efd1df;border-radius:16px;text-align:center;padding:6px 2px;font-size:12px;font-weight:bold}.stat b{display:block;font-size:21px;color:#704a66}
+.mode{display:flex;gap:8px;margin:11px 0 9px}.mode button{flex:1;padding:11px;border:3px solid transparent;border-radius:17px;background:#eee4ff;color:#65466f;font:inherit;font-weight:bold;cursor:pointer;min-height:48px}.mode .active{background:#ffd4e6;border-color:#e999bb}
+.diff{display:flex;gap:8px;margin:0 0 9px}.diff button{flex:1;padding:11px;border:3px solid transparent;border-radius:17px;background:#fff3d6;color:#7a5b1e;font:inherit;font-weight:bold;cursor:pointer;min-height:48px}.diff .active{background:#ffe27a;border-color:#f0b429}
+.progress{height:12px;background:#eee9ef;border-radius:20px;overflow:hidden;margin:0 5px 12px}.bar{height:100%;width:0;background:linear-gradient(90deg,#ffc93d,#ff83b8);transition:.35s}
+.question{background:#fff9ee;border:4px solid #d7b890;border-radius:23px;padding:12px 10px 17px;text-align:center}.badge{display:inline-block;background:#fff0b3;border:2px solid #e1c55c;border-radius:20px;padding:5px 13px;font-weight:bold}.message{min-height:27px;margin:8px 0;color:#975178;font-size:18px;font-weight:bold}
+.visual{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;font-size:36px;margin:8px 0 2px;min-height:48px}
+.visual .vop{font-size:38px;font-weight:900;color:#684655}
+.visual .vgroup{display:flex;flex-wrap:wrap;gap:2px;justify-content:center}
+.visual .takeaway{opacity:.3;filter:grayscale(1)}
+.visual.pulse{animation:pulse .45s ease-in-out 3}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.problem{font-size:clamp(52px,14vw,88px);font-weight:900;line-height:1;margin:10px 0 18px;color:#4c344a}
+.answer-row{display:flex;gap:12px;justify-content:center;align-items:center;margin:6px 0}
+#answerInput{width:120px;height:76px;font-size:46px;font-weight:900;text-align:center;font-family:inherit;color:#4c344a;border:4px solid #e9b8d0;border-radius:20px;background:#fff;outline:none}
+#answerInput:focus{border-color:#f05d9f;box-shadow:0 0 0 4px #ffd4e6}
+#answerInput.shake{animation:shake .35s;border-color:#e05252}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.check{min-height:76px;padding:12px 26px;border:0;border-radius:19px;background:#f05d9f;color:white;font:inherit;font-size:22px;font-weight:bold;box-shadow:0 5px #c44880;cursor:pointer}
+.check:active{transform:translateY(3px);box-shadow:0 2px #c44880}
+.hint{margin-top:12px;background:#fff3d6;border:2px solid #e1c55c;border-radius:16px;padding:10px 20px;font:inherit;font-size:16px;font-weight:bold;color:#7a5b1e;cursor:pointer;min-height:48px}
+.bottomscene{margin:15px -14px -25px;height:170px;position:relative;overflow:hidden;background:linear-gradient(#ffe27a,#fff3d6)}.bottomscene:after{content:"";position:absolute;left:-5%;bottom:-80px;width:110%;height:150px;background:#ffd23e;border-radius:50% 50% 0 0}.bflower{position:absolute;z-index:3;font-size:35px;bottom:25px}.bf1{left:6%}.bf2{left:22%}.bf3{right:22%}.bf4{right:5%}.speech{position:absolute;z-index:5;background:white;border:3px solid #d9bfd1;border-radius:20px;padding:7px 12px;font-weight:bold;font-size:14px}.s1{left:5%;top:15px}.s2{right:4%;top:15px}
+.petal{position:fixed;z-index:20;pointer-events:none;font-size:25px;animation:fall 1.3s ease-out forwards}@keyframes fall{to{transform:translateY(90vh) rotate(500deg);opacity:0}}
+.modal{position:fixed;inset:0;background:#fff9;display:none;align-items:center;justify-content:center;z-index:30}.modal.show{display:flex}.modalin{width:min(430px,90%);background:white;border:5px solid #efb9d5;border-radius:28px;padding:23px;text-align:center;box-shadow:0 15px 50px #5d416050}.modalin .big{font-size:58px}.modalin h2{color:#8b4773}.modalin button{background:#ef5e9f;color:white;border:0;border-radius:18px;padding:12px 23px;font:inherit;font-weight:bold;min-height:48px;cursor:pointer}
+@media(max-width:470px){.top{grid-template-columns:57px 1fr 57px}.icon{width:52px;height:52px;font-size:26px}.sky{height:200px}.bunny{font-size:74px;left:36%}.panel{padding-left:10px;padding-right:10px}.bottomscene{margin-left:-10px;margin-right:-10px}.visual{font-size:30px}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="top"><button class="icon" onclick="location.href='../'">⌂</button><div class="sign"><b>🐰 Bunny Number Quest</b><small>Hop, count &amp; type the answer! 🥕</small></div><button class="icon" id="muteBtn" onclick="toggleMute()">🔊</button></div>
+<div class="sky"><div class="sun">☀️</div><div class="cloud c1">☁️</div><div class="cloud c2">☁️</div><div class="hill"></div><div class="bunny">🐰</div><div class="carrot car1">🥕</div><div class="carrot car2">🥕</div><div class="sign2">You can<br>do it! 💕</div></div>
+<div class="panel">
+<div class="stats"><div class="stat">⭐<b id="score">0</b>Stars</div><div class="stat">🔥<b id="streak">0</b>Streak</div><div class="stat">🐰<b id="roundCount">0/10</b>Quest</div></div>
+<div class="mode"><button id="addBtn" class="active" onclick="setMode('add')">➕ Addition</button><button id="subBtn" onclick="setMode('sub')">➖ Subtraction</button><button id="mixBtn" onclick="setMode('mixed')">🎲 Mixed</button></div>
+<div class="diff"><button id="easyBtn" class="active" onclick="setDiff('easy')">🌱 Easy</button><button id="medBtn" onclick="setDiff('medium')">🌼 Medium</button><button id="hardBtn" onclick="setDiff('hard')">🌟 Hard</button></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="question"><span class="badge" id="badge">Easy · Answers up to 6</span><div class="message" id="message">Count the carrots, then type! 🥕</div><div class="visual" id="visual"></div><div class="problem" id="problem">3 + 4 = ?</div>
+<div class="answer-row"><input id="answerInput" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="?" autocomplete="off" autocorrect="off" autocapitalize="off"><button class="check" id="checkBtn" onclick="checkAnswer()">Check ✓</button></div>
+<button class="hint" id="hintBtn" onclick="showHint()">💡 Hint</button>
+</div>
+<div class="bottomscene"><div class="speech s1">Type your<br>answer! ✏️</div><div class="speech s2">Count them<br>all! 🥕</div><div class="bflower bf1">🌷</div><div class="bflower bf2">🌸</div><div class="bflower bf3">🌼</div><div class="bflower bf4">🌷</div></div>
+</div></div>
+<div class="modal" id="modal"><div class="modalin"><div class="big">🐰🎉🥕⭐</div><h2>You did it! 🎉</h2><p id="uptext">You finished 10 questions! Amazing counting, Mitsuki!</p><button onclick="closeModal()">Play Again! 🐰</button></div></div>
+<script>
+let mode='add', diff='easy', currentOp='add', a=0, b=0, answer=0, stars=0, streak=0, round=0, muted=false, locked=false;
+const good=['Amazing! 🌸','You got it! 💕','Super counting! ⭐','Wonderful! 🎀','Perfect! 🐰','Bunny-rific! ✨','Hop-tastic! 🥕'];
+const retry=['Good try! 🐰','Almost! Try again! 🌷','You can do it! 💕','Count once more! 🥕','Take your time! 🌸'];
+const emojis=['🥕','🍓','🌸','⭐'];
+let audioCtx=null;
+function tone(f0,f1,dur,type){if(muted)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f0,audioCtx.currentTime);o.frequency.exponentialRampToValueAtTime(Math.max(f1,1),audioCtx.currentTime+dur/1000);g.gain.setValueAtTime(.16,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur/1000);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur/1000);}catch(e){}}
+function ding(){tone(660,1320,220,'sine');setTimeout(()=>tone(880,1760,180,'sine'),90);}
+function buzz(){tone(220,140,220,'triangle');}
+function toggleMute(){muted=!muted;document.getElementById('muteBtn').textContent=muted?'🔇':'🔊';}
+function rand(lo,hi){return Math.floor(Math.random()*(hi-lo+1))+lo}
+function maxAns(){return diff==='easy'?6:diff==='medium'?9:12}
+function diffLabel(){return diff==='easy'?'Easy':diff==='medium'?'Medium':'Hard'}
+function setMode(m){mode=m;document.getElementById('addBtn').classList.toggle('active',m==='add');document.getElementById('subBtn').classList.toggle('active',m==='sub');document.getElementById('mixBtn').classList.toggle('active',m==='mixed');newProblem()}
+function setDiff(d){diff=d;document.getElementById('easyBtn').classList.toggle('active',d==='easy');document.getElementById('medBtn').classList.toggle('active',d==='medium');document.getElementById('hardBtn').classList.toggle('active',d==='hard');newProblem()}
+function newProblem(){
+  locked=false;
+  const mx=maxAns();
+  currentOp = mode==='mixed' ? (Math.random()<.5?'add':'sub') : mode;
+  do{
+    if(currentOp==='add'){a=rand(0,Math.min(9,mx));b=rand(0,Math.min(9,mx-a));answer=a+b;}
+    else{a=rand(0,9);b=rand(Math.max(0,a-mx),a);answer=a-b;}
+  }while(a===0&&b===0);
+  document.getElementById('problem').textContent=`${a} ${currentOp==='add'?'+':'−'} ${b} = ?`;
+  document.getElementById('message').textContent = diff==='easy' ? 'Count the pictures, then type! 🥕' : 'Work it out in your head! 🧠';
+  const input=document.getElementById('answerInput');
+  input.value='';input.disabled=false;input.classList.remove('shake');
+  renderVisual();
+  update();
+  input.focus();
+}
+function renderVisual(){
+  const v=document.getElementById('visual');
+  const hint=document.getElementById('hintBtn');
+  if(diff!=='easy'){v.innerHTML='';v.style.display='none';hint.style.display='none';return;}
+  v.style.display='flex';hint.style.display='inline-block';
+  const e=emojis[rand(0,emojis.length-1)];
+  const group=(n,cls)=>`<span class="vgroup${cls?' '+cls:''}">${Array.from({length:n},()=>`<span>${e}</span>`).join('')}</span>`;
+  const op=currentOp==='add'?'+':'−';
+  v.innerHTML=group(a)+`<span class="vop">${op}</span>`+group(b,currentOp==='sub'?'takeaway':'');
+}
+function showHint(){
+  const v=document.getElementById('visual');
+  v.classList.remove('pulse');void v.offsetWidth;v.classList.add('pulse');
+  document.getElementById('message').textContent='Count the pictures one by one! 🥕';
+}
+function checkAnswer(){
+  if(locked)return;
+  const input=document.getElementById('answerInput');
+  const val=input.value.trim();
+  if(val===''||isNaN(Number(val))){document.getElementById('message').textContent='Type a number first! ✏️';input.classList.add('shake');setTimeout(()=>input.classList.remove('shake'),400);input.focus();return;}
+  const n=parseInt(val,10);
+  if(n===answer){
+    locked=true;stars++;streak++;round++;
+    document.getElementById('message').textContent=good[rand(0,good.length-1)];
+    input.disabled=true;ding();celebrate();update();
+    if(round>=10){setTimeout(showCelebration,700);}
+    else{setTimeout(newProblem,900);}
+  }else{
+    streak=0;buzz();
+    input.classList.add('shake');setTimeout(()=>input.classList.remove('shake'),400);
+    document.getElementById('message').textContent=retry[rand(0,retry.length-1)];
+    update();input.select();input.focus();
+  }
+}
+function update(){
+  document.getElementById('score').textContent=stars;
+  document.getElementById('streak').textContent=streak;
+  document.getElementById('roundCount').textContent=round+'/10';
+  document.getElementById('badge').textContent=`${diffLabel()} · Answers up to ${maxAns()}`;
+  document.getElementById('bar').style.width=(round/10*100)+'%';
+}
+function celebrate(){const bits=['🌸','⭐','🎀','💕','✨','🌷','🥕','🐰'];for(let i=0;i<18;i++){let x=document.createElement('span');x.className='petal';x.textContent=bits[rand(0,bits.length-1)];x.style.left=rand(2,98)+'%';x.style.top=rand(3,20)+'%';x.style.animationDelay=(Math.random()*.2)+'s';document.body.appendChild(x);setTimeout(()=>x.remove(),1500)}}
+function showCelebration(){round=0;update();celebrate();document.getElementById('modal').classList.add('show');}
+function closeModal(){document.getElementById('modal').classList.remove('show');newProblem();}
+document.getElementById('answerInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkAnswer();});
+newProblem()
+</script></body></html>
