@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Elephant Kana Pick</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif;color:#563b55}
+body{background:linear-gradient(#bfeaff 0 38%,#dff4dc 72%,#a8d98f);overflow-x:hidden}
+.page{width:min(760px,100%);margin:auto;min-height:100vh;position:relative}
+.top{height:105px;display:grid;grid-template-columns:72px 1fr 72px;gap:10px;align-items:center;padding:10px}
+.icon{height:62px;width:62px;border:4px solid white;border-radius:18px;background:#fff7ff;color:#704c8b;box-shadow:0 4px #d2b2cf;font-size:32px;cursor:pointer}
+.sign{background:#fff5df;border:5px solid #bd8b68;border-radius:22px;text-align:center;padding:7px 4px;box-shadow:0 5px #a87859}.sign b{font-size:clamp(22px,5vw,33px);display:block;color:#684655}.sign small{font-size:12px}
+.panel{background:#fff;border:5px solid #efbfd6;border-radius:30px 30px 0 0;position:relative;z-index:6;padding:13px 14px 25px;box-shadow:0 -8px 25px #688f6520}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.stat{background:#fff9fb;border:2px solid #efd1df;border-radius:16px;text-align:center;padding:6px 2px;font-size:12px;font-weight:bold}.stat b{display:block;font-size:21px;color:#704a66}
+.mode{display:flex;gap:8px;margin:11px 0 9px}.mode button{flex:1;padding:11px;border:3px solid transparent;border-radius:17px;background:#eee4ff;color:#65466f;font:inherit;font-weight:bold;cursor:pointer;min-height:48px}.mode .active{background:#ffd4e6;border-color:#e999bb}
+.diff{display:flex;gap:8px;margin:0 0 9px}.diff button{flex:1;padding:11px;border:3px solid transparent;border-radius:17px;background:#e8f5d8;color:#4a6b2a;font:inherit;font-weight:bold;cursor:pointer;min-height:48px}.diff .active{background:#c8e6a0;border-color:#8bc34a}
+.progress{height:12px;background:#eee9ef;border-radius:20px;overflow:hidden;margin:0 5px 12px}.bar{height:100%;width:0;background:linear-gradient(90deg,#8bc34a,#ff83b8);transition:.35s}
+.question{background:#fff9ee;border:4px solid #d7b890;border-radius:23px;padding:12px 10px 17px;text-align:center}.badge{display:inline-block;background:#fff0b3;border:2px solid #e1c55c;border-radius:20px;padding:5px 13px;font-weight:bold}.message{min-height:27px;margin:8px 0;color:#975178;font-size:18px;font-weight:bold}
+.prompt{font-family:"Hiragino Sans","Yu Gothic",sans-serif;font-size:clamp(80px,20vw,120px);font-weight:600;line-height:1.05;margin:6px 0 0;color:#4c344a}
+.romaji-hint{font-size:22px;font-weight:800;color:#b47a5e;min-height:28px}
+.tree-scene{position:relative;height:270px;overflow:hidden;background:linear-gradient(#bfeaff,#dff4dc 70%,#c8e6a0);border:4px solid #d7b890;border-radius:23px;margin-top:12px}
+.tree-trunk{position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:56px;height:150px;background:#8d6e63;border-radius:24px 24px 0 0;z-index:1}
+.tree-canopy{position:absolute;left:50%;transform:translateX(-50%);top:8px;width:420px;height:170px;z-index:2}
+.tree-canopy i{position:absolute;border-radius:50%;background:#66bb6a}
+.tree-canopy i:nth-child(1){left:0;top:45px;width:150px;height:110px;background:#81c784}
+.tree-canopy i:nth-child(2){left:135px;top:0;width:150px;height:130px;background:#4caf50}
+.tree-canopy i:nth-child(3){right:0;top:45px;width:150px;height:110px;background:#81c784}
+.tree-canopy i:nth-child(4){left:75px;top:75px;width:270px;height:80px;background:#66bb6a;border-radius:45%}
+.tree-ground{position:absolute;left:-5%;bottom:-40px;width:110%;height:80px;background:#9ed891;border-radius:50% 50% 0 0;z-index:1}
+.elephant{position:absolute;left:50%;bottom:6px;transform:translateX(-50%);font-size:88px;z-index:5;filter:drop-shadow(0 4px white)}
+.elephant.happy{animation:elebounce .6s ease-in-out}
+@keyframes elebounce{25%{transform:translateX(-50%) translateY(-22px) rotate(-4deg)}55%{transform:translateX(-50%) translateY(0) rotate(3deg)}75%{transform:translateX(-50%) translateY(-10px)}}
+.fruit{position:absolute;z-index:4;width:84px;height:84px;border:0;border-radius:50%;background:rgba(255,255,255,.55);cursor:pointer;display:grid;place-items:center;font-size:46px;padding:0;transition:transform .15s}
+.fruit:active{transform:scale(1.12)}
+.fruit .fruit-kana{position:absolute;right:-6px;bottom:-4px;width:40px;height:40px;border-radius:50%;background:#fff;border:3px solid #8052b5;display:grid;place-items:center;font-size:24px;font-weight:600;color:#4c344a;font-family:"Hiragino Sans","Yu Gothic",sans-serif}
+.fruit.f0{left:9%;top:78px}
+.fruit.f1{left:32%;top:38px}
+.fruit.f2{right:32%;top:52px}
+.fruit.f3{right:9%;top:88px}
+.fruit.picked{animation:fruitfall .8s ease-in forwards;pointer-events:none}
+@keyframes fruitfall{40%{transform:translateY(90px) rotate(60deg)}100%{transform:translateY(165px) rotate(140deg);opacity:0}}
+.fruit.wrong{animation:shake .35s;background:#ffd6df}
+@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.bottomscene{margin:15px -14px -25px;height:170px;position:relative;overflow:hidden;background:linear-gradient(#c9edff,#e2f6df)}.bottomscene:after{content:"";position:absolute;left:-5%;bottom:-80px;width:110%;height:150px;background:#9ed891;border-radius:50% 50% 0 0}.bflower{position:absolute;z-index:3;font-size:35px;bottom:25px}.bf1{left:6%}.bf2{left:22%}.bf3{right:22%}.bf4{right:5%}.speech{position:absolute;z-index:5;background:white;border:3px solid #d9bfd1;border-radius:20px;padding:7px 12px;font-weight:bold;font-size:14px}.s1{left:5%;top:15px}.s2{right:4%;top:15px}
+.petal{position:fixed;z-index:20;pointer-events:none;font-size:25px;animation:fall 1.3s ease-out forwards}@keyframes fall{to{transform:translateY(90vh) rotate(500deg);opacity:0}}
+.modal{position:fixed;inset:0;background:#fff9;display:none;align-items:center;justify-content:center;z-index:30}.modal.show{display:flex}.modalin{width:min(430px,90%);background:white;border:5px solid #efb9d5;border-radius:28px;padding:23px;text-align:center;box-shadow:0 15px 50px #5d416050}.modalin .big{font-size:58px}.modalin h2{color:#8b4773}.modalin button{background:#ef5e9f;color:white;border:0;border-radius:18px;padding:12px 23px;font:inherit;font-weight:bold;min-height:48px;cursor:pointer}
+@media(max-width:470px){.top{grid-template-columns:57px 1fr 57px}.icon{width:52px;height:52px;font-size:26px}.tree-scene{height:240px}.tree-canopy{width:340px}.elephant{font-size:70px}.fruit{width:72px;height:72px;font-size:38px}.fruit .fruit-kana{width:34px;height:34px;font-size:20px}.panel{padding-left:10px;padding-right:10px}.bottomscene{margin-left:-10px;margin-right:-10px}.prompt{font-size:clamp(72px,20vw,96px)}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="top"><button class="icon" onclick="location.href='../'">⌂</button><div class="sign"><b>🐘 Elephant Kana Pick</b><small>Tap the fruit with the matching kana! 🌸</small></div><button class="icon" id="muteBtn" onclick="toggleMute()">🔊</button></div>
+<div class="panel">
+<div class="stats"><div class="stat">⭐<b id="score">0</b>Stars</div><div class="stat">🔥<b id="streak">0</b>Streak</div><div class="stat">🐘<b id="roundCount">0/10</b>Picking</div></div>
+<div class="mode"><button id="h2kBtn" class="active" onclick="setDir('h2k')">あ → ア</button><button id="k2hBtn" onclick="setDir('k2h')">ア → あ</button></div>
+<div class="diff"><button id="easyBtn" class="active" onclick="setDiff('easy')">🌱 Easy</button><button id="medBtn" onclick="setDiff('medium')">🌼 Medium</button><button id="hardBtn" onclick="setDiff('hard')">🌟 Hard</button></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="question"><span class="badge" id="badge">Easy · Vowels only</span><div class="message" id="message">Which fruit sounds the same? 🐘</div>
+<div class="prompt" id="prompt">あ</div>
+<div class="romaji-hint" id="romajiHint">a</div>
+<div class="tree-scene" id="treeScene">
+  <div class="tree-canopy"><i></i><i></i><i></i><i></i></div>
+  <div class="tree-trunk"></div>
+  <div class="tree-ground"></div>
+  <div id="fruits"></div>
+  <div class="elephant" id="elephant">🐘</div>
+</div>
+</div>
+<div class="bottomscene"><div class="speech s1">Tap the<br>matching fruit! 🍎</div><div class="speech s2">Yummy!<br>Yum! 🐘</div><div class="bflower bf1">🌷</div><div class="bflower bf2">🌸</div><div class="bflower bf3">🌼</div><div class="bflower bf4">🌷</div></div>
+</div></div>
+<div class="modal" id="modal"><div class="modalin"><div class="big">🐘🌸🎉⭐</div><h2>You did it! 🎉</h2><p id="uptext">You matched 10 kana! Amazing, Mitsuki!</p><button onclick="closeModal()">Play Again! 🐘</button></div></div>
+<script>
+const sets={
+  hiragana:[["あ","a"],["い","i"],["う","u"],["え","e"],["お","o"],["か","ka"],["き","ki"],["く","ku"],["け","ke"],["こ","ko"],["さ","sa"],["し","shi"],["す","su"],["せ","se"],["そ","so"],["た","ta"],["ち","chi"],["つ","tsu"],["て","te"],["と","to"],["な","na"],["に","ni"],["ぬ","nu"],["ね","ne"],["の","no"],["は","ha"],["ひ","hi"],["ふ","fu"],["へ","he"],["ほ","ho"],["ま","ma"],["み","mi"],["む","mu"],["め","me"],["も","mo"],["や","ya"],["ゆ","yu"],["よ","yo"],["ら","ra"],["り","ri"],["る","ru"],["れ","re"],["ろ","ro"],["わ","wa"],["を","wo"],["ん","n"]],
+  katakana:[["ア","a"],["イ","i"],["ウ","u"],["エ","e"],["オ","o"],["カ","ka"],["キ","ki"],["ク","ku"],["ケ","ke"],["コ","ko"],["サ","sa"],["シ","shi"],["ス","su"],["セ","se"],["ソ","so"],["タ","ta"],["チ","chi"],["ツ","tsu"],["テ","te"],["ト","to"],["ナ","na"],["ニ","ni"],["ヌ","nu"],["ネ","ne"],["ノ","no"],["ハ","ha"],["ヒ","hi"],["フ","fu"],["ヘ","he"],["ホ","ho"],["マ","ma"],["ミ","mi"],["ム","mu"],["メ","me"],["モ","mo"],["ヤ","ya"],["ユ","yu"],["ヨ","yo"],["ラ","ra"],["リ","ri"],["ル","ru"],["レ","re"],["ロ","ro"],["ワ","wa"],["ヲ","wo"],["ン","n"]]
+};
+let dir='h2k', diff='easy', promptIdx=0, answerIdx=0, options=[], stars=0, streak=0, round=0, muted=false, locked=false;
+const good=['すごい！','Amazing! 🌸','You got it! 💕','Perfect match! ⭐','すばらしい！','Kana star! ✨','やった！'];
+const retry=['Good try! 🐘','Almost! Try again! 🌷','You can do it! 💕','Look at the tree again! 🍎','Take your time! 🌸'];
+const fruits=['🍎','🍌','🍇','🍊','🍓','🥭'];
+let audioCtx=null;
+function tone(f0,f1,dur,type){if(muted)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f0,audioCtx.currentTime);o.frequency.exponentialRampToValueAtTime(Math.max(f1,1),audioCtx.currentTime+dur/1000);g.gain.setValueAtTime(.16,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+dur/1000);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+dur/1000);}catch(e){}}
+function ding(){tone(660,1320,220,'sine');setTimeout(()=>tone(880,1760,180,'sine'),90);}
+function buzz(){tone(220,140,220,'triangle');}
+function toggleMute(){muted=!muted;document.getElementById('muteBtn').textContent=muted?'🔇':'🔊';}
+function rand(lo,hi){return Math.floor(Math.random()*(hi-lo+1))+lo}
+function poolSize(){return diff==='easy'?5:diff==='medium'?20:46}
+function diffLabel(){return diff==='easy'?'Easy':diff==='medium'?'Medium':'Hard'}
+function poolLabel(){return diff==='easy'?'Vowels only':diff==='medium'?'First 20 kana':'All 46 kana'}
+function promptSet(){return dir==='h2k'?sets.hiragana:sets.katakana}
+function answerSet(){return dir==='h2k'?sets.katakana:sets.hiragana}
+function setDir(d){dir=d;document.getElementById('h2kBtn').classList.toggle('active',d==='h2k');document.getElementById('k2hBtn').classList.toggle('active',d==='k2h');newRound()}
+function setDiff(d){diff=d;document.getElementById('easyBtn').classList.toggle('active',d==='easy');document.getElementById('medBtn').classList.toggle('active',d==='medium');document.getElementById('hardBtn').classList.toggle('active',d==='hard');newRound()}
+function newRound(){
+  locked=false;
+  const pool=poolSize();
+  promptIdx=rand(0,pool-1);
+  answerIdx=promptIdx; // same index in the other set = same sound (same romaji)
+  const set=new Set([answerIdx]);
+  while(set.size<4)set.add(rand(0,pool-1));
+  options=[...set].sort(()=>Math.random()-.5);
+  const p=promptSet()[promptIdx];
+  document.getElementById('prompt').textContent=p[0];
+  const hint=document.getElementById('romajiHint');
+  if(diff==='easy'){hint.textContent=p[1];hint.style.visibility='visible';}
+  else{hint.textContent='';hint.style.visibility='hidden';}
+  document.getElementById('message').textContent='Which fruit sounds the same? 🐘';
+  renderFruits();
+  update();
+}
+function renderFruits(){
+  const box=document.getElementById('fruits');
+  box.innerHTML='';
+  const used=fruits.slice().sort(()=>Math.random()-.5);
+  options.forEach((idx,i)=>{
+    const btn=document.createElement('button');
+    btn.className='fruit f'+i;
+    btn.setAttribute('data-kana',answerSet()[idx][0]);
+    btn.innerHTML=`${used[i]}<span class="fruit-kana">${answerSet()[idx][0]}</span>`;
+    btn.onclick=()=>pickFruit(btn,idx);
+    box.appendChild(btn);
+  });
+}
+function pickFruit(btn,idx){
+  if(locked)return;
+  if(idx===answerIdx){
+    locked=true;stars++;streak++;round++;
+    btn.classList.add('picked');
+    const el=document.getElementById('elephant');
+    el.classList.remove('happy');void el.offsetWidth;el.classList.add('happy');
+    document.getElementById('message').textContent=good[rand(0,good.length-1)];
+    ding();celebrate();update();
+    if(round>=10){setTimeout(showCelebration,900);}
+    else{setTimeout(newRound,1000);}
+  }else{
+    streak=0;buzz();
+    btn.classList.add('wrong');setTimeout(()=>btn.classList.remove('wrong'),400);
+    document.getElementById('message').textContent=retry[rand(0,retry.length-1)];
+    update();
+  }
+}
+function update(){
+  document.getElementById('score').textContent=stars;
+  document.getElementById('streak').textContent=streak;
+  document.getElementById('roundCount').textContent=round+'/10';
+  document.getElementById('badge').textContent=`${diffLabel()} · ${poolLabel()}`;
+  document.getElementById('bar').style.width=(round/10*100)+'%';
+}
+function celebrate(){const bits=['🌸','⭐','🎀','💕','✨','🌷','🍎','🐘'];for(let i=0;i<18;i++){let x=document.createElement('span');x.className='petal';x.textContent=bits[rand(0,bits.length-1)];x.style.left=rand(2,98)+'%';x.style.top=rand(3,20)+'%';x.style.animationDelay=(Math.random()*.2)+'s';document.body.appendChild(x);setTimeout(()=>x.remove(),1500)}}
+function showCelebration(){round=0;update();celebrate();document.getElementById('modal').classList.add('show');}
+function closeModal(){document.getElementById('modal').classList.remove('show');newRound();}
+newRound()
+</script></body></html>
