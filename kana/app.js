@@ -6,7 +6,7 @@ const sets={
 let mode="hiragana", index=0, stars=Number(localStorage.getItem("kanaStars")||0), randomOrder=false, randomSequence=[];
 let quiz=false, streak=Number(localStorage.getItem("kanaStreak")||0), quizAnswer=null;
 let kanaData={hiragana:[],katakana:[]};
-const DATA_URL={hiragana:"https://cdn.jsdelivr.net/npm/kana-svg-data/dist/allHiragana.json",katakana:"https://cdn.jsdelivr.net/npm/kana-svg-data/dist/allKatakana.json"};
+const DATA_URL={hiragana:"data/allHiragana.json",katakana:"data/allKatakana.json"};
 const $=id=>document.getElementById(id);
 const guide=$("guideCanvas"), draw=$("drawCanvas"), wrap=$("canvasWrap");
 let strokes=[], current=[], drawing=false;
