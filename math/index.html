@@ -76,4 +76,5 @@ function closeModal(){document.getElementById('modal').classList.remove('show')}
 function celebrate(){const bits=['🌸','⭐','🎀','💕','✨','🌷'];for(let i=0;i<18;i++){let x=document.createElement('span');x.className='petal';x.textContent=bits[rand(0,bits.length-1)];x.style.left=rand(2,98)+'%';x.style.top=rand(3,20)+'%';x.style.animationDelay=(Math.random()*.2)+'s';document.body.appendChild(x);setTimeout(()=>x.remove(),1500)}}
 function toggleMusic(){let b=document.getElementById('music');b.classList.toggle('off');b.textContent=b.classList.contains('off')?'🔇':'♫'}
 newProblem()
-</script></body></html>
+</script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("../sw.js").catch(()=>{});}</script>
+</body></html>

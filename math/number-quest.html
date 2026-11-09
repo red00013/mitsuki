@@ -137,4 +137,5 @@ function showCelebration(){round=0;update();celebrate();document.getElementById(
 function closeModal(){document.getElementById('modal').classList.remove('show');newProblem();}
 document.getElementById('answerInput').addEventListener('keydown',e=>{if(e.key==='Enter')checkAnswer();});
 newProblem()
-</script></body></html>
+</script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("../sw.js").catch(()=>{});}</script>
+</body></html>
