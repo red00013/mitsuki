@@ -10,6 +10,51 @@ const DATA_URL={hiragana:"data/allHiragana.json",katakana:"data/allKatakana.json
 const $=id=>document.getElementById(id);
 const guide=$("guideCanvas"), draw=$("drawCanvas"), wrap=$("canvasWrap");
 let strokes=[], current=[], drawing=false;
+/* Guide-glyph mask, in CSS pixels, for the tracing check below.
+   Built from the same character/font/position as drawGuide(), then
+   dilated by stroking the glyph (~13px each side) so a 6-year-old
+   tracing just outside the edge still counts, while scribbling
+   across the whole canvas does not. */
+let guideMask=null, guideMaskW=0, guideMaskH=0;
+function buildGuideMask(){
+  const r=wrap.getBoundingClientRect();
+  const m=document.createElement("canvas");
+  m.width=Math.max(1,Math.round(r.width)); m.height=Math.max(1,Math.round(r.height));
+  const ctx=m.getContext("2d");
+  ctx.font=`${Math.min(r.height*.68,250)}px "Hiragino Sans", sans-serif`;
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.lineJoin="round"; ctx.strokeStyle="#fff"; ctx.lineWidth=26;
+  ctx.strokeText(currentItem()[0],r.width/2,r.height/2+4);
+  ctx.fillStyle="#fff"; ctx.fillText(currentItem()[0],r.width/2,r.height/2+4);
+  try{
+    guideMask=ctx.getImageData(0,0,m.width,m.height).data;
+    guideMaskW=m.width; guideMaskH=m.height;
+  }catch(e){ guideMask=null; }
+}
+function pointOnGuide(x,y){
+  if(!guideMask) return false;
+  const ix=Math.round(x), iy=Math.round(y);
+  if(ix<0||iy<0||ix>=guideMaskW||iy>=guideMaskH) return false;
+  return guideMask[(iy*guideMaskW+ix)*4+3]>0;
+}
+/* Sample every stroke (interpolating long segments so a fast scribble
+   can't slip through on endpoints alone) and return the % of the ink
+   that lands on the guide character. */
+function tracingScore(){
+  let total=0, on=0;
+  const add=(x,y)=>{ total++; if(pointOnGuide(x,y)) on++; };
+  for(const s of strokes){
+    for(let i=0;i<s.length;i++){
+      if(i>0){
+        const dx=s[i].x-s[i-1].x, dy=s[i].y-s[i-1].y, d=Math.hypot(dx,dy);
+        const steps=Math.max(1,Math.round(d/6));
+        for(let k=1;k<steps;k++) add(s[i-1].x+dx*k/steps, s[i-1].y+dy*k/steps);
+      }
+      add(s[i].x,s[i].y);
+    }
+  }
+  return {total, on, pct: total? Math.round(on/total*100) : 0};
+}
 
 /* ---------- Fun: sounds, confetti, praise ---------- */
 const PRAISE=["すごい！","Amazing! ⭐","You did it! 🎉","Great job!","すばらしい！","Wow, nice! 🌸","やった！"];
@@ -36,6 +81,7 @@ function drawGuide(){
   ctx.beginPath();ctx.moveTo(r.width/2,18);ctx.lineTo(r.width/2,r.height-18);ctx.moveTo(18,r.height/2);ctx.lineTo(r.width-18,r.height/2);ctx.stroke();ctx.setLineDash([]);
   ctx.font=`${Math.min(r.height*.68,250)}px "Hiragino Sans", sans-serif`;ctx.textAlign="center";ctx.textBaseline="middle";
   ctx.fillStyle="#eadfd5";ctx.fillText(currentItem()[0],r.width/2,r.height/2+4);
+  buildGuideMask();
 }
 function pos(e){const r=draw.getBoundingClientRect();return {x:e.clientX-r.left,y:e.clientY-r.top};}
 function redraw(){
@@ -97,7 +143,14 @@ function renderDots(){const d=$("dots");d.innerHTML="";sets[mode].forEach((_,i)=
 $("clearBtn").onclick=()=>{strokes=[];current=[];redraw();$("feedback").textContent=""};
 $("checkBtn").onclick=()=>{
   if(strokes.length===0){$("feedback").textContent="Try tracing first ✏️";return}
-  $("feedback").textContent=awardStar();
+  const {total,on,pct}=tracingScore();
+  if(total<20){$("feedback").textContent="Trace a bit more first ✏️";return}
+  if(pct<50){
+    buzz();
+    $("feedback").textContent=`Only ${pct}% was on the ${currentItem()[0]} — stay inside the light letter! ✏️ (Clear and try again)`;
+    return;
+  }
+  $("feedback").textContent=`${pct}% on the letter — ${awardStar()}`;
   setTimeout(()=>next(),900);
 };
 function next(){index=(index+1)%sets[mode].length;render();renderStrokeOrder()}
@@ -151,6 +204,9 @@ function answerQuiz(btn,correct){
   }
 }
 $("quizNextBtn").onclick=()=>startQuiz();
+
+/* test hooks (used by automated checks; harmless in play) */
+window.__kanaTrace={tracingScore,buildGuideMask,getMask:()=>guideMask,setStrokes:s=>{strokes=s;redraw();}};
 
 window.addEventListener("resize",resize);
 render();
