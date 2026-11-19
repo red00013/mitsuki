@@ -65,9 +65,9 @@ body{background:linear-gradient(#bfeaff 0 38%,#dff4dc 72%,#a8d98f);overflow-x:hi
 <div class="panel">
 <div class="stats"><div class="stat">⭐<b id="score">0</b>Stars</div><div class="stat">🔥<b id="streak">0</b>Streak</div><div class="stat">🐘<b id="roundCount">0/10</b>Picking</div></div>
 <div class="mode"><button id="addBtn" class="active" onclick="setMode('add')">➕ Addition</button><button id="subBtn" onclick="setMode('sub')">➖ Subtraction</button><button id="mixBtn" onclick="setMode('mixed')">🎲 Mixed</button></div>
-<div class="diff"><button id="easyBtn" class="active" onclick="setDiff('easy')">🌱 Easy</button><button id="medBtn" onclick="setDiff('medium')">🌼 Medium</button><button id="hardBtn" onclick="setDiff('hard')">🌟 Hard</button></div>
+<div class="diff"><button id="easyBtn" style="display:none" onclick="setDiff('easy')">🌱 Easy</button><button id="medBtn" class="active" onclick="setDiff('medium')">🌼 Medium</button><button id="hardBtn" onclick="setDiff('hard')">🌟 Hard</button></div>
 <div class="progress"><div class="bar" id="bar"></div></div>
-<div class="question"><span class="badge" id="badge">Easy · Answers up to 6</span><div class="message" id="message">Help the elephant pick the right fruit! 🐘</div><div class="visual" id="visual"></div><div class="problem" id="problem">3 + 4 = ?</div>
+<div class="question"><span class="badge" id="badge">Medium · Answers up to 9</span><div class="message" id="message">Help the elephant pick the right fruit! 🐘</div><div class="visual" id="visual"></div><div class="problem" id="problem">3 + 4 = ?</div>
 <div class="tree-scene" id="treeScene">
   <div class="tree-canopy"><i></i><i></i><i></i><i></i></div>
   <div class="tree-trunk"></div>
@@ -81,7 +81,7 @@ body{background:linear-gradient(#bfeaff 0 38%,#dff4dc 72%,#a8d98f);overflow-x:hi
 </div></div>
 <div class="modal" id="modal"><div class="modalin"><div class="big">🐘🍎🎉⭐</div><h2>You did it! 🎉</h2><p id="uptext">You picked 10 yummy fruits! Amazing counting, Mitsuki!</p><button onclick="closeModal()">Play Again! 🐘</button></div></div>
 <script>
-let mode='add', diff='easy', currentOp='add', a=0, b=0, answer=0, options=[], stars=0, streak=0, round=0, muted=false, locked=false;
+let mode='add', diff='medium', currentOp='add', a=0, b=0, answer=0, options=[], stars=0, streak=0, round=0, muted=false, locked=false;
 const good=['Amazing! 🌸','You got it! 💕','Super picking! ⭐','Wonderful! 🎀','Perfect! 🐘','Ele-phantastic! ✨','Yummy! 🍎'];
 const retry=['Good try! 🐘','Almost! Try again! 🌷','You can do it! 💕','Look at the tree again! 🍎','Take your time! 🌸'];
 const fruits=['🍎','🍌','🍇','🍊','🍓','🥭'];
@@ -95,7 +95,7 @@ function rand(lo,hi){return Math.floor(Math.random()*(hi-lo+1))+lo}
 function maxAns(){return diff==='easy'?6:diff==='medium'?9:12}
 function diffLabel(){return diff==='easy'?'Easy':diff==='medium'?'Medium':'Hard'}
 function setMode(m){mode=m;document.getElementById('addBtn').classList.toggle('active',m==='add');document.getElementById('subBtn').classList.toggle('active',m==='sub');document.getElementById('mixBtn').classList.toggle('active',m==='mixed');newProblem()}
-function setDiff(d){diff=d;document.getElementById('easyBtn').classList.toggle('active',d==='easy');document.getElementById('medBtn').classList.toggle('active',d==='medium');document.getElementById('hardBtn').classList.toggle('active',d==='hard');newProblem()}
+function setDiff(d){if(d==='easy')d='medium';diff=d;document.getElementById('easyBtn').classList.toggle('active',d==='easy');document.getElementById('medBtn').classList.toggle('active',d==='medium');document.getElementById('hardBtn').classList.toggle('active',d==='hard');newProblem()}
 function newProblem(){
   locked=false;
   const mx=maxAns();
